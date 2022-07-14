@@ -3560,7 +3560,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="CLC2" registerAlias="CLCGLS0"/>
-         <value>2</value>
+         <value>128</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="CLC2" registerAlias="CLCGLS1"/>
@@ -3592,7 +3592,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="CLC2" registerAlias="CLCSEL3"/>
-         <value>0</value>
+         <value>42</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="CLC2" registerAlias="CLCSELECT"/>
@@ -3628,7 +3628,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="CLC2" registerAlias="CLCGLS0" settingAlias="LCG1D1T"/>
-         <value>enabled</value>
+         <value>disabled</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="CLC2" registerAlias="CLCGLS0" settingAlias="LCG1D2N"/>
@@ -3652,7 +3652,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="CLC2" registerAlias="CLCGLS0" settingAlias="LCG1D4T"/>
-         <value>disabled</value>
+         <value>enabled</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="CLC2" registerAlias="CLCGLS1" settingAlias="LCG2D1N"/>
@@ -3800,7 +3800,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="CLC2" registerAlias="CLCSEL3" settingAlias="LCD4S"/>
-         <value>CLCIN0 (CLCIN0PPS)</value>
+         <value>NCO1_OUT</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="CLC2" registerAlias="CLCSELECT" settingAlias="SLCT"/>
@@ -16576,7 +16576,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Pin Module" name="Custom Name RA2"/>
-         <value>IO_RA2</value>
+         <value/>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Pin Module" name="Custom Name RA3"/>
@@ -16724,7 +16724,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Pin Module" name="RA2"/>
-         <value>output</value>
+         <value>disabled</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.CustomKey" moduleName="Pin Module" name="RA3"/>
@@ -20424,7 +20424,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="Pin Module" registerAlias="RA2PPS"/>
-         <value>0</value>
+         <value>2</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.RegisterKey" moduleName="Pin Module" registerAlias="RA3PPS"/>
@@ -21768,7 +21768,7 @@
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="Pin Module" registerAlias="RA2PPS" settingAlias="RA2PPS"/>
-         <value>0</value>
+         <value>2</value>
       </entry>
       <entry>
          <key class="com.microchip.mcc.core.tokenManager.SettingKey" moduleName="Pin Module" registerAlias="RA3PPS" settingAlias="RA3PPS"/>
@@ -40718,7 +40718,7 @@
       </entry>
       <entry>
          <file>mcc_generated_files/pin_manager.h</file>
-         <hash>01794d0caa170a63dfbd6e62cd9330bd779e6b0a5af3e2a188fc70fec0ae45a1</hash>
+         <hash>30c1e7352c665040ab643959e464afafbe2ab028982e254d8f38fb7b708c68fb</hash>
       </entry>
       <entry>
          <file>mcc_generated_files/uart3.h</file>
@@ -40734,7 +40734,7 @@
       </entry>
       <entry>
          <file>mcc_generated_files/clc2.c</file>
-         <hash>5c01e88502f29de5098606cabae54110491c30097a64c538f2954fa8b9747b8c</hash>
+         <hash>89cb3936962eddb20179511ba72e23740703202af75aa5044dbf93411a49b58c</hash>
       </entry>
       <entry>
          <file>mcc_generated_files/clc1.c</file>
@@ -40766,7 +40766,7 @@
       </entry>
       <entry>
          <file>mcc_generated_files/pin_manager.c</file>
-         <hash>286ff2b47b5dafdca38422c50191a6f485b44706d104ad3872b7ccb861c5fb51</hash>
+         <hash>3399cbe04a606d0f9ab60e527590419a1b43dda37309e78ddfcbce806c95770f</hash>
       </entry>
       <entry>
          <file>mcc_generated_files/nco1.c</file>

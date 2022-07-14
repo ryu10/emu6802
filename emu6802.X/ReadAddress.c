@@ -26,7 +26,6 @@ inline void readAddress(void){
     // Enable Mem access stretch
     CLCSELECT = 1; // select CLC2=MRdy FF
     MPU_MRDY = 0;
-    MPU_MR = 0;
     // set MemAccess
     MemAccess = 1;
     

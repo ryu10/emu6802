@@ -46,11 +46,10 @@ int main(int argc, char** argv) {
     MRDY_FF_RES = 1;
     __delay_us(1);
     MRDY_FF_RES = 0;
-//    MPU_MR = 1;
+    
     // Assert MPU MemRdy (normal operation)
-    CLCSELECT = 1; // select CLC2=MRdy FF
+    __delay_us(1);
     MPU_MRDY = 1;
-    MPU_MR = 1;
     
     MemAccess = 0; 
     // Enable global interrupts
@@ -70,7 +69,6 @@ int main(int argc, char** argv) {
             printf("VMA detected. Address= %04x %02x:%02x\r\n", ab.w, ab.h, ab.l);
             CLCSELECT = 1; // select CLC2=MRdy FF
             MPU_MRDY = 1;
-            MPU_MR = 1;
             while(1){;}
          
             // Switch R/W
