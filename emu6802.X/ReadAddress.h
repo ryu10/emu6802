@@ -21,7 +21,7 @@ typedef union  {
 }AB_t;
 
 extern AB_t ab;
-extern int MemAccess;
+extern volatile int MemAccess;
 
 inline void readAddress(void);
  

@@ -101,7 +101,6 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
 
 bool CLC1_OutputStatusGet(void)
 {
-    readAddress();
     return(CLCDATAbits.CLC1OUT);
 }
 /**
