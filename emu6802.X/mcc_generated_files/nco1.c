@@ -69,9 +69,9 @@ void NCO1_Initialize (void)
     // 
     NCO1ACCL = 0x00;
     // 
-    NCO1INCU = 0x00;
+    NCO1INCU = 0x01;
     // 
-    NCO1INCH = 0x80;
+    NCO1INCH = 0x00;
     // 
     NCO1INCL = 0x00;
 
