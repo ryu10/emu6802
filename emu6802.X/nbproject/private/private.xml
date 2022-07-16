@@ -10,6 +10,7 @@
             <file>file:/Users/ryu/github/emu6802/emu6802.X/mcc_generated_files/pin_manager.c</file>
             <file>file:/Users/ryu/github/emu6802/emu6802.X/ReadAddress.c</file>
             <file>file:/Users/ryu/github/emu6802/emu6802.X/main.c</file>
+            <file>file:/Users/ryu/github/emu6802/emu6802.X/RomRam.h</file>
             <file>file:/Users/ryu/github/emu6802/emu6802.X/mcc_generated_files/interrupt_manager.c</file>
         </group>
     </open-files>
