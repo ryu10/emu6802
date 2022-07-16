@@ -43,6 +43,7 @@ EMUZ80 と同様、PIC が MPU バス信号を読み取って ROM、RAM、UART �
 
 ![timing](/img/timing.png)
 
+（黄色：EXTAL、シアン：E、マゼンタ：MR）
 
 
 ## 課題
