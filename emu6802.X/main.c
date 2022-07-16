@@ -60,7 +60,7 @@ int main(int argc, char** argv) {
     MPU_RES = 1;
 
     // Print startup mesg.
-    printf("MPU init done!1234\r\n");
+    printf("MPU init done\r\n");
 
 //    CLCSELECT = 1; // select CLC2=MRdy FF
     
