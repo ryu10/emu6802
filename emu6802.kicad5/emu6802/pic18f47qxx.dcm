@@ -1,0 +1,27 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP PIC18F45J10-IP_copy
+D 32K Flash, 1K SRAM, ADC, DIP40
+K Flash-Based 8-Bit Microcontroller
+F http://ww1.microchip.com/downloads/en/DeviceDoc/39682E.pdf
+$ENDCMP
+#
+$CMP PIC18F47Q84-DIP40
+D 16K Flash, 1K SRAM, ADC, DIP40
+K Flash-Based 8-Bit Microcontroller
+F http://ww1.microchip.com/downloads/en/DeviceDoc/39682E.pdf
+$ENDCMP
+#
+$CMP PIC18LF44J10-IP_copy
+D 16K Flash, 1K SRAM, ADC, DIP40
+K Flash-Based 8-Bit Microcontroller
+F http://ww1.microchip.com/downloads/en/DeviceDoc/39682E.pdf
+$ENDCMP
+#
+$CMP PIC18LF45J10-IP_copy
+D 32K Flash, 1K SRAM, ADC, DIP40
+K Flash-Based 8-Bit Microcontroller
+F http://ww1.microchip.com/downloads/en/DeviceDoc/39682E.pdf
+$ENDCMP
+#
+#End Doc Library

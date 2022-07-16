@@ -1,0 +1,4 @@
+(sym_lib_table
+  (lib (name pic18f47qxx)(type Legacy)(uri ${KIPRJMOD}/pic18f47qxx.lib)(options "")(descr ""))
+  (lib (name cpu_nxp_6800_mc6802)(type Legacy)(uri ${KIPRJMOD}/cpu_nxp_6800_mc6802.lib)(options "")(descr ""))
+)
