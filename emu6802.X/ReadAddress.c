@@ -24,7 +24,7 @@ inline void readAddress(void){
     ab.l = PORTB;
     
     // Enable Mem access stretch
-    CLCSELECT = 1; // select CLC2=MRdy FF
+//    CLCSELECT = 1; // select CLC2=MRdy FF
     MPU_MRDY = 0;
     // set MemAccess
     MemAccess = 1;
