@@ -52,3 +52,4 @@ EMUZ80 と同様、PIC が MPU バス信号を読み取って ROM、RAM、UART �
 - Altair Basic を走らせる。
 - 割り込みピンを配線する。
 - EMUZ80 基板に載せられるアダプタボードを作る。
+- 内蔵 128 Byte RAM を有効にする。
