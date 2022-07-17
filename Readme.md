@@ -12,15 +12,15 @@
 
 ## 配線
 
-具体的な配線は下図のとおりです（[PDF 版はこちら](/emu6802.kicad5/emu6802/emu6802_sch.pdf)）。図の右半分は PIC 内部の CLC と NCO の構成を説明するもので、実際に配線する必要はありません。
+具体的な配線は下図のとおりです（[PDF 版はこちら](/emu6802.kicad5/emu6802/emu6802_sch.pdf)）。図の右半分は PIC 内部の CLC と NCO の構成を説明するためのもので、実際に配線する必要はありません。
 
 ![schematic](/img/emu6802_sch.png)
 
 ## PIC プログラム
 
-EMUZ80 やその他の派生システムを参考にして記述したコードのほか、MCC（MPLAB Code Configurator）を使って PIC 内部モジュールの構成を行っています。[emu6802.X](/emu6802.X/) 以下のプロジェクトを MPLAB X IDE で開いてください。
+EMUZ80 や派生システムを参考にして記述したコードのほか、MCC（MPLAB Code Configurator）を使って PIC 内部モジュールの構成を行っています。[emu6802.X](/emu6802.X/) 以下のプロジェクトを MPLAB X IDE で開いてください。
 
-PIC 書き込みの際はビルド済み HEX ファイル [emu6802.X.production.hex](/emu6802.X/dist/default/production/emu6802.X.production.hex) を使用できます。
+PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex](/emu6802.X/dist/default/production/emu6802.X.production.hex) が使用できます。
 
 注：現行の HEX ファイルは PIC18F47Q84 をターゲットにしてビルドされています。
 
