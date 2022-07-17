@@ -19,6 +19,7 @@
 //int MemAccess;
 
 int main(int argc, char** argv) {
+    uint8_t d;
 
     // Initialize the device
     SYSTEM_Initialize();
@@ -51,6 +52,9 @@ int main(int argc, char** argv) {
     __delay_us(1);
     MPU_MRDY = 1;
     
+    // copy first page of Altair binary to zero page
+    cp_zpg();
+    
     MemAccess = 0; 
     // Enable global interrupts
     INTERRUPT_GlobalInterruptHighEnable();
@@ -69,14 +73,38 @@ int main(int argc, char** argv) {
             // Switch R/W
             if(MPU_RW){
                 // MPU read = PIC Data bus output
-                if(ab.w < RAM0_END){ // read ram
-                    LATC = ram0[ab.w - RAM0_BEG];
-                }else if(ab.w >= ROM0_BEG){ // read rom
+                if(ab.w < ZPG_END){
+                    LATC = zpg[ab.w];
+                }else if(ab.w == fcb_addr[0]){
+                    LATC = fcb[0];
+                }else if(ab.w == fcb_addr[1]){
+                    LATC = fcb[1];
+                }else if(ab.w == fcb_addr[2]){
+                    LATC = fcb[2];
+                }else if(ab.w == fcb_addr[3]){
+                    LATC = fcb[3];
+                }else if(ab.w == fcb_addr[4]){
+                    LATC = fcb[4];
+                }else if(ab.w == fcb_addr[5]){
+                    LATC = fcb[5];
+                }else if(ab.w == fcb_addr[6]){
+                    LATC = fcb[6];
+                }else if(ab.w < ROM0_END){ // basic rom
                     LATC = rom0[ab.w - ROM0_BEG];
+                }else if(ab.w < RAM0_END){ // main ram
+                    LATC = ram0[ab.w - RAM0_BEG];
+                }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
+                    LATC = ram1[ab.w - RAM1_BEG];
+                }else if((ab.w >= ROM1_BEG) && (ab.w < ROM1_END)){ // basic patch
+                    LATC = rom1[ab.w - ROM1_BEG];
                 }else if(ab.w == UART_DREG){
                     LATC = U3RXB;
                 }else if(ab.w == UART_CREG){
                     LATC = PIR9;
+                }else if((ab.w >= ROM2_BEG) && (ab.w < ROM2_END)){ // mikbug
+                    LATC = rom2[ab.w - ROM2_BEG];
+                }else if(ab.w >= ROM3_BEG){ // vectors
+                    LATC = rom3[ab.w - ROM3_BEG];
                 }
             }else{
                 // MPU write = PIC Data bus input
@@ -84,10 +112,29 @@ int main(int argc, char** argv) {
                 while(MPU_E==0){;} // wait until the second half of MPU cycle
 //                _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 _delay(14); // 14 @ _XTAL_FREQ = 64000000, ~219ns
-                if(ab.w < RAM0_END){ // read ram
-                    ram0[ab.w - RAM0_BEG] = PORTC;
+                d = PORTC;
+                if(ab.w < ZPG_END){
+                    zpg[ab.w] = d;
+                }else if(ab.w == fcb_addr[0]){
+                    fcb[0] = d;
+                }else if(ab.w == fcb_addr[1]){
+                    fcb[1] = d;
+                }else if(ab.w == fcb_addr[2]){
+                    fcb[2] = d;
+                }else if(ab.w == fcb_addr[3]){
+                    fcb[3] = d;
+                }else if(ab.w == fcb_addr[4]){
+                    fcb[4] = d;
+                }else if(ab.w == fcb_addr[5]){
+                    fcb[5] = d;
+                }else if(ab.w == fcb_addr[6]){
+                    fcb[6] = d;
+                }else if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
+                    ram0[ab.w - RAM0_BEG] = d;
+                }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
+                    ram1[ab.w - RAM1_BEG] = d;
                 }else if(ab.w == UART_DREG){
-                    U3TXB = PORTC;
+                    U3TXB = d;
                 }
                 MPU_DDIR = 0;
             }

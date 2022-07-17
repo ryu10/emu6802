@@ -2,7 +2,9 @@ all:
 	dump head
 
 head:
-	xxd -i -c8 mikbug.bin > mikbug.h
+	xxd -i -c8 MIKBUG2.bin > MIKBUG2.h
 
 dump:
-	xxd mikbug.bin > mikbug.hex
+	xxd MIKBUG2.bin > MIKBUG2.hex
+
+# srec_cat assist09.s19 -Motorola -o assist09.hex -Intel 
