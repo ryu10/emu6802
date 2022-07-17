@@ -884,8 +884,8 @@ const uint8_t rom0[] = {
 
 /* ram0: main ram 
 #define RAM0_BEG 0x0000
-#define RAM0_END 0x2800
-#define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x2800 (10,240 bytes)
+#define RAM0_END 0x3100
+#define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x3100 (12,544 bytes)
 */
 
 uint8_t ram0[RAM0_SIZ];
