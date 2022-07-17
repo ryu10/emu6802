@@ -41,6 +41,7 @@
       </logicalFolder>
       <itemPath>main.c</itemPath>
       <itemPath>ReadAddress.c</itemPath>
+      <itemPath>RomRam.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
