@@ -10,18 +10,6 @@
 #include <stdlib.h>
 #include "RomRam.h"
 
-/* zpg: zero page */
-
-uint8_t zpg[ZPG_SIZ];
-
-/* fcb: isolated fcb locations */
-
-const uint16_t fcb_addr[] = {
-  0x029e, 0x1285, 0x188d, 0x18f2, 0x1a43, 0x1aaa, 0x1ab7
-};
-
-uint8_t fcb[FCB_SIZ];
-
 /* rom0: Altair Basic
 #define ROM0_BEG 0x0000
 #define ROM0_END 0x1af3
@@ -895,9 +883,9 @@ const uint8_t rom0[] = {
 };
 
 /* ram0: main ram 
-#define RAM0_BEG 0x1af3
-#define RAM0_END 0x3000
-#define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x150d (5,389 bytes)
+#define RAM0_BEG 0x0000
+#define RAM0_END 0x2800
+#define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x2800 (10,240 bytes)
 */
 
 uint8_t ram0[RAM0_SIZ];
@@ -1005,16 +993,9 @@ const uint8_t rom3[] = {
   0xe0, 0x00, 0xe1, 0x13, 0xe0, 0x05, 0xe0, 0xd0
 };
 
-void cp_zpg(){
+void cp_basic(){
   int i;
-  for(i=0; i<256; i++){
-    zpg[i] = rom0[i];
-  }
-}
-
-void cp_fcb(){
-  int i;
-  for(i=0; i<FCB_SIZ; i++){
-    fcb[i] = rom0[fcb_addr[i]];
+  for(i=0; i<ROM0_SIZ; i++){
+    ram0[i] = rom0[i];
   }
 }

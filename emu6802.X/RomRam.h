@@ -14,18 +14,7 @@ extern "C" {
 
 #include <xc.h>
     
-/* zpg: zero page + 0x33 bytes, shared with Altair binary */
-#define ZPG_BEG 0x0000
-#define ZPG_END 0x0133
-#define ZPG_SIZ (ZPG_END - ZPG_BEG)
-    
-extern uint8_t zpg[];
 
-/* isolated 'fcb' locations in Altair binary */
-#define FCB_SIZ 7
-extern const uint16_t fcb_addr[];
-extern uint8_t fcb[];
-    
 /* rom0: Altair Basic */
 #define ROM0_BEG 0x0000
 #define ROM0_END 0x1af3
@@ -34,9 +23,9 @@ extern uint8_t fcb[];
 extern const uint8_t rom0[];
 
 /* ram0: main ram */
-#define RAM0_BEG 0x1af3
-#define RAM0_END 0x3000
-#define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x150d (5,389 bytes)
+#define RAM0_BEG 0x0000
+#define RAM0_END 0x2800
+#define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x2800 (10,240 bytes)
 
 extern uint8_t ram0[];
 
@@ -72,8 +61,7 @@ extern const uint8_t rom2[];
 
 extern const uint8_t rom3[];
 
-extern void cp_zpg();
-extern void cp_fcb();
+extern void cp_basic();
 
 
 #ifdef	__cplusplus
