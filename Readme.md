@@ -18,7 +18,7 @@
 
 ## PIC プログラム
 
-EMUZ80 を参考にして記述したコードのほか、MCC（MPLAB Code Configurator）を使って PIC 内部モジュールの構成を行っています。[emu6802.X](/emu6802.X/) 以下のプロジェクトを MPLAB X IDE で開いてください。
+EMUZ80 やその他の派生システムを参考にして記述したコードのほか、MCC（MPLAB Code Configurator）を使って PIC 内部モジュールの構成を行っています。[emu6802.X](/emu6802.X/) 以下のプロジェクトを MPLAB X IDE で開いてください。
 
 PIC 書き込みの際はビルド済み HEX ファイル [emu6802.X.production.hex](/emu6802.X/dist/default/production/emu6802.X.production.hex) を使用できます。
 
