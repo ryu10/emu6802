@@ -1,6 +1,6 @@
 # EMU6802
 
-[**v0.31**](https://github.com/ryu10/emu6802/releases/tag/v0.31) 
+[*v0.31*](https://github.com/ryu10/emu6802/releases/tag/v0.31) 
 
   電脳伝説様作の [EMUZ80](https://github.com/vintagechips/emuz80) を利用した PIC16F47Q84 + MC6802 コンピュータです。
 
