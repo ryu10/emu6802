@@ -6,7 +6,7 @@
 
   - RAM 12KB
   - Mikbug
-  - Altair Basic（フリーエリア 6KB）
+  - Basic（フリーエリア 6KB）
 
 ## 構成方法
 
@@ -36,19 +36,11 @@ PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex
 2. EMUZ80 から Z80 を取り去り、ブレッドボードに刺した 6802 へジャンパ線を使って配線します。結線は上の回路図を参照してください。
 3. PIC に HEX ファイル [emu6802.X.production.hex](/emu6802.X/dist/default/production/emu6802.X.production.hex) を書き込みます。
 4. 電源投入すると EMUZ80 のシリアルポート（9600bps）から Mikbug を使用できます。
-5. 'G' コマンドのジャンプベクタアドレスは $7F48-$7F49です。デフォルトで $0000 が設定されているので、電源投入後すぐに 'G' キーを押すと Altair Basic が立ち上がります。Basic 起動時の質問には下記の画面のとおり順に「12544」「80」「Y」と答えるといいでしょう。
+5. 'G' コマンドのジャンプベクタアドレスは $7F48-$7F49です。デフォルトで $0000 が設定されているので、電源投入後すぐに 'G' キーを押すと Basic が立ち上がります。起動時の質問には下記の画面のとおり順に「12544」「80」「Y」と答えるといいでしょう。
 
 ![startup-mikbug-altair](/img/mikbug-abasic.png)
 
-## メモリマップ
-
-6802 MPU から見たメモリマップは下図のようになります。
-
-![emu6802-abasic-mmap](img/emu6802-abasic-mmap.png)
-
-PIC のメモリ割り当て処理は [RomRam.c](emu6802.X/RomRam.c) と [main.c](emu6802.X/main.c) に記述されています。
-
-## 動作原理
+## 動作
 
 EMUZ80 と同様に、PIC が MPU バス信号を読み取って ROM、RAM、UART をエミュレートします。
 
@@ -65,7 +57,7 @@ PIC のコード次第ではもう少し高速化できるかもしれません�
 ## 課題
 
 - PIC のメモリエミュレーションを最適化する。
-- Altair Basic を走らせる。✅
+- Altair 680 Basic を走らせる。✅
 - 割り込みピンを配線する。
 - EMUZ80 基板に載せられるアダプタボードを作る。
 - MC6802 内蔵 128 Byte RAM を有効にする。
