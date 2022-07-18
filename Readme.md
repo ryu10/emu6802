@@ -26,7 +26,7 @@ PIC16F47Q84 を搭載した EMUZ80 を使います。EMUZ80 基板の CPU ソケ
 
 EMUZ80 やユーザの方々による派生システムを参考にして記述したコードのほか、MCC（MPLAB Code Configurator）を使って PIC 内部モジュールの構成を行っています。[emu6802.X](/emu6802.X/) 以下のプロジェクトを MPLAB X IDE で開くと内容が確認できます。
 
-PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex](/releases/download/v0.31/emu6802.X.production.hex) が使用できます。
+PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex](https://github.com/ryu10/emu6802/releases/download/v0.31/emu6802.X.production.hex) が使用できます。
 
 注：現行の HEX ファイルは PIC18F47Q84 をターゲットにしてビルドされています。
 
