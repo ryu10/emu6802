@@ -106,11 +106,13 @@ int main(int argc, char** argv) {
                 }else if(ab.w == UART_DREG){
                     U3TXB = d;
                 }
-                MPU_DDIR = 0;
+//                MPU_DDIR = 0;
             }
             MemAccess = 0;
             // Clear Mem Stretch
             MPU_MRDY = 1;
+            // after a write phase, we should wait for at least tDHW = 30ns here but omit it for now
+            MPU_DDIR = 0;
         }
     }
 
