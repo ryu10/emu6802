@@ -1,6 +1,6 @@
 # EMU6802
 
-[*v0.31*](https://github.com/ryu10/emu6802/releases/tag/v0.31)
+[*v0.32*](https://github.com/ryu10/emu6802/releases/tag/v0.32)
 
 ([日本語](Readme.md) | EN)
 
