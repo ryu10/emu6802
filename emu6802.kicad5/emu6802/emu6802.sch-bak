@@ -860,4 +860,6 @@ Wire Wire Line
 	8700 4550 8650 4550
 Text Notes 9650 5550 0    50   ~ 0
 MPU_EXTAL
+Text Notes 7550 7500 0    50   ~ 0
+EMU6802, derived from EMUZ80
 $EndSCHEMATC
