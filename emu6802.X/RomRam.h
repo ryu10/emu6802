@@ -23,9 +23,8 @@ extern "C" {
 extern const uint8_t rom0[];
 
 /* ram0: main ram */
-#define RAM0_BEG 0x0000
-#define RAM0_BEG1 0x0080  // when enabling 128B internal ram
-#define RAM0_END 0x3100
+#define RAM0_BEG 0x0080  // when enabling 128B internal ram
+#define RAM0_END 0x3180
 #define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x3100 (12,544 bytes)
 
 extern uint8_t ram0[];

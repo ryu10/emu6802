@@ -883,9 +883,8 @@ const uint8_t rom0[] = {
 };
 
 /* ram0: main ram 
-#define RAM0_BEG 0x0000
-#define RAM0_BEG1 0x0080  // when enabling 128B internal ram
-#define RAM0_END 0x3100
+#define RAM0_BEG 0x0080  // when enabling 128B internal ram
+#define RAM0_END 0x3180
 #define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x3100 (12,544 bytes)
 */
 
@@ -1026,7 +1025,7 @@ const uint8_t rom4[] = {
 
 void cp_basic(){
   int i;
-  for(i=0; i<ROM0_SIZ; i++){
-    ram0[i] = rom0[i];
+  for(i=RAM0_BEG; i<ROM0_SIZ; i++){
+    ram0[i - RAM0_BEG] = rom0[i];
   }
 }

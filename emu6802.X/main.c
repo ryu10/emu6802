@@ -78,8 +78,8 @@ int main(int argc, char** argv) {
             if(MPU_RW){
                 // MPU read = PIC Data bus output
                 MPU_DDIR = 0;
-                if((ab.w >= RAM0_BEG1) && (ab.w < RAM0_END)){ // main ram
-                    LATC = ram0[ab.w];
+                if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
+                    LATC = ram0[ab.w - RAM0_BEG];
                 }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
                     LATC = ram1[ab.w - RAM1_BEG];
                 }else if((ab.w >= ROM1_BEG) && (ab.w < ROM1_END)){ // basic patch
@@ -107,8 +107,8 @@ int main(int argc, char** argv) {
 //                _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 _delay(14); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 d = PORTC;
-                if((ab.w >= RAM0_BEG1) && (ab.w < RAM0_END)){ // main ram
-                    ram0[ab.w] = d;
+                if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
+                    ram0[ab.w - RAM0_BEG] = d;
                 }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
                     ram1[ab.w - RAM1_BEG] = d;
                 }else if(ab.w == UART_DREG){
