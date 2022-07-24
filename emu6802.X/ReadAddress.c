@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "ReadAddress.h"
 #include "PortAssign.h"
+#include "RomRam.h"
 
 /*
  * 
@@ -22,6 +23,7 @@ inline void readAddress(void){
     // read MPU address bus
     ab.h = PORTD;
     ab.l = PORTB;
+    if(ab.w < RAM0_BEG1){ return ; } // do not disrupt hw ram access
     
     // Enable Mem access stretch
 //    CLCSELECT = 1; // select CLC2=MRdy FF

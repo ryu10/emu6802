@@ -24,6 +24,7 @@ extern const uint8_t rom0[];
 
 /* ram0: main ram */
 #define RAM0_BEG 0x0000
+#define RAM0_BEG1 0x0080  // when enabling 128B internal ram
 #define RAM0_END 0x3100
 #define RAM0_SIZ (RAM0_END - RAM0_BEG) // 0x3100 (12,544 bytes)
 
@@ -60,6 +61,13 @@ extern const uint8_t rom2[];
 #define ROM3_SIZ (ROM3_END - ROM3_BEG) // 0x0008 (8 bytes)
 
 extern const uint8_t rom3[];
+
+/* rom4: copy 128b routine */
+#define ROM4_BEG 0x7000
+#define ROM4_END 0x70a2
+#define ROM4_SIZ (ROM4_END - ROM4_BEG) // 0x00a2 (162 bytes)
+
+extern const uint8_t rom4[];
 
 extern void cp_basic();
 
