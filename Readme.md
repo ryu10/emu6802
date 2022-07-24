@@ -1,6 +1,6 @@
 # EMU6802
 
-[*v0.32*](https://github.com/ryu10/emu6802/releases/tag/v0.32)
+[*v0.33a*](https://github.com/ryu10/emu6802/releases/tag/v0.33a)
 
 (JA | [EN](Readme_en.md))
 
@@ -62,4 +62,4 @@ PIC コード次第ではもう少し高速化できるかもしれません。�
 - Altair 680 Basic を走らせる。✅
 - 割り込みピンを配線する。
 - EMUZ80 基板に載せられるアダプタボードを作る。
-- MC6802 内蔵 128 Byte RAM を有効にする。
+- MC6802 内蔵 128 Byte RAM を有効にする。 (branch 'ram128') ✅

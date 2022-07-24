@@ -1,6 +1,6 @@
 # EMU6802
 
-[*v0.32*](https://github.com/ryu10/emu6802/releases/tag/v0.32)
+[*v0.33a*](https://github.com/ryu10/emu6802/releases/tag/v0.33a)
 
 ([日本語](Readme.md) | EN)
 
@@ -54,4 +54,4 @@ The PIC16F47Q84 emurates the memory and UART for the MC6802. The 6802 external c
 - Run a Basic interpreter. ✅
 - Implement the interrupt pins.
 - Develop an attachment PCB to the EMUZ80.
-- Enable the 6802 internal 128 byte ram.
+- Enable the 6802 internal 128 byte ram. (branch 'ram128') ✅
