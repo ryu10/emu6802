@@ -48,6 +48,15 @@ The PIC16F47Q84 emurates the memory and UART for the MC6802. The 6802 external c
 
 (Ch1: EXTAL, Ch1: E, Ch3: MR)
 
+## Enabling MC6802 inernal RAM
+
+MC6802 contains a 128-byte internal RAM area from $0000-$007F. This internal RAM is enabled by setting RE (pin36) to High. Basic available ram is increased from 6106 bytes to 6234 bytes.
+
+As the internal RAM is a physical device, i.e. it si not emulated by the PIC, you need to implment the following:
+
+- When accessing $0000-$007F, do not stretch the mem. acc. cycle.
+- Make the default MPU_DDIR to 0xff = MPU write (PIC read), so that there will not be data bus conflict.
+
 ## To Do's
 
 - Improve the memory emulation on PIC.
