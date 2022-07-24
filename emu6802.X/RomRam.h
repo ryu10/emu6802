@@ -63,8 +63,8 @@ extern const uint8_t rom3[];
 
 /* rom4: copy 128b routine */
 #define ROM4_BEG 0x7000
-#define ROM4_END 0x70a2
-#define ROM4_SIZ (ROM4_END - ROM4_BEG) // 0x00a2 (162 bytes)
+#define ROM4_END 0x70a4
+#define ROM4_SIZ (ROM4_END - ROM4_BEG) // 0x00a2 (164 bytes)
 
 extern const uint8_t rom4[];
 

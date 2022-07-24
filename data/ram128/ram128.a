@@ -1,6 +1,8 @@
 * ram128
 * populate MPU int. 128B with the first 128 bytes of Altair Baisc binary
 *
+MIKBUG  equ $e0d0
+*
         ORG $2000  * somewhere in ram0[] before ABasic inits
 SRC     equ *
 DST     equ *+2 
@@ -19,7 +21,7 @@ next    ldx SRC
         inc DST+1
         deca
         bne next
-        swi
+        jmp #MIKBUG
         end
 *
 DATA128 fcb  $0d, $76, $00, $f3, $7e, $18, $f9, $7e
