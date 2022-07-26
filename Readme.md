@@ -28,7 +28,7 @@ PIC16F47Q84 を搭載した EMUZ80 を使います。EMUZ80 基板の CPU ソケ
 
 PIC プログラムは EMUZ80 やユーザの方々による派生システムを参考にして記述しました。また、MCC（MPLAB Code Configurator）を使って PIC 内部モジュールの構成を行っています。このリポジトリの [emu6802.X](/emu6802.X/) 以下のプロジェクトを MPLAB X IDE で開くと内容が確認できます。
 
-PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex](https://github.com/ryu10/emu6802/releases/download/v0.31/emu6802.X.production.hex) が利用できます。
+PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex](https://github.com/ryu10/emu6802/releases/download/v0.33/emu6802.X.production.hex) が利用できます。
 
 注：現行の HEX ファイルは PIC18F47Q84 をターゲットにしてビルドされています。
 
@@ -36,7 +36,7 @@ PIC 書き込みにはビルド済み HEX ファイル [emu6802.X.production.hex
 
 1. EMUZ80 を組み立てます。PIC18F47Q84 を使用します。
 2. EMUZ80 から Z80 を取り去り、ブレッドボードに刺した 6802 へジャンパ線を使って配線します。結線は上の回路図を参照してください。
-3. PIC に HEX ファイル [emu6802.X.production.hex](https://github.com/ryu10/emu6802/releases/download/v0.31/emu6802.X.production.hex) を書き込みます。
+3. PIC に HEX ファイル [emu6802.X.production.hex](https://github.com/ryu10/emu6802/releases/download/v0.33/emu6802.X.production.hex) を書き込みます。
 4. 電源投入すると EMUZ80 のシリアルポート（9600bps）から Mikbug を使用できます。
 5. 'G' コマンドのジャンプベクタアドレスは $7F48-$7F49です。デフォルトで $0000 が設定されているので、電源投入後すぐに 'G' キーを押すと Basic が立ち上がります。起動時の質問には下記の画面のとおり順に「12544」「80」「Y」と答えると一般的な設定が選択されます。
 
