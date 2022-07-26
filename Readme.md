@@ -1,6 +1,6 @@
 # EMU6802
 
-[*v0.33a*](https://github.com/ryu10/emu6802/releases/tag/v0.33a)
+[*v0.33*](https://github.com/ryu10/emu6802/releases/tag/v0.33a)
 
 (JA | [EN](Readme_en.md))
 
@@ -63,7 +63,7 @@ MC6802 は $0000-$007F の 128 バイト RAM を内蔵しています。RE ピ�
 内蔵 RAM を有効にした場合、次の点を考慮する必要があります。
 
 - 内蔵 RAM アクセス時はメモリアクセスサイクルのストレッチを発動しない
-- PIC のデータバス GPIO のデフォルト状態を MPU 書き込みモードにする（PICから見ると読み出しモード）
+- PIC のデータバス GPIO のデフォルト状態を MPU 書き込みモードにする（PIC から見て読み出しモード）
 
 ## 課題
 
