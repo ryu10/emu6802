@@ -1,6 +1,6 @@
 # EMU6802
 
-[*v0.33*](https://github.com/ryu10/emu6802/releases/tag/v0.33a)
+[*v0.33*](https://github.com/ryu10/emu6802/releases/tag/v0.33)
 
 ([日本語](Readme.md) | EN)
 
@@ -47,15 +47,6 @@ The PIC16F47Q84 emurates the memory and UART for the MC6802. The 6802 external c
 ![timing2](/img/timing2.png)
 
 (Ch1: EXTAL, Ch1: E, Ch3: MR)
-
-## Enabling MC6802 inernal RAM
-
-MC6802 contains a 128-byte internal RAM area from $0000-$007F. This internal RAM is enabled by setting RE (pin36) to High. Basic available ram is increased from 6106 bytes to 6234 bytes.
-
-As the internal RAM is a physical device, i.e. it si not emulated by the PIC, you need to implment the following:
-
-- When accessing $0000-$007F, do not stretch the mem. acc. cycle.
-- Make the default MPU_DDIR（TRISB）value to 0xff = MPU write (PIC read), so that there will not be data bus conflict.
 
 ## To Do's
 
