@@ -63,4 +63,4 @@ As the internal RAM is a physical device, i.e. it si not emulated by the PIC, yo
 - Run a Basic interpreter. ✅
 - Implement the interrupt pins.
 - Develop an attachment PCB to the EMUZ80.
-- Enable the 6802 internal 128 byte ram. (branch 'ram128') ✅
+- Enable the 6802 internal 128 byte ram. ✅
