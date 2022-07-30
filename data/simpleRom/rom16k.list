@@ -300,10 +300,10 @@
 0297 e1d2 b6 80 18           [ 4 ] OUTEEE1	LDAA	ACIACS
 0298 e1d5 47                 [ 2 ] 	ASRA
 0299 e1d6 47                 [ 2 ] 	ASRA
-0300                               BCCOUTEEE1
-0301 e1d7 32                 [ 4 ] 	PULA
-0302 e1d8 b7 80 19           [ 5 ] 	STAA	ACIADA
-0303 e1db 39                 [ 5 ] 	RTS
+0300 e1d7 24 f9              [ 4 ]   BCC OUTEEE1
+0301 e1d9 32                 [ 4 ] 	PULA
+0302 e1da b7 80 19           [ 5 ] 	STAA	ACIADA
+0303 e1dd 39                 [ 5 ] 	RTS
 0304                               *
 0305                               *	VECTOR
 0306 fff8                          	ORG	$FFF8
@@ -437,7 +437,6 @@
 ACIACS     8018
 ACIADA     8019
 BADDR      e047
-BCCOUTEEE1 e1d7
 BEGA       3182
 BYTE       e055
 BYTECT     318b
@@ -510,7 +509,6 @@ start      e280
 ACIACS     8018 *0007 0162 0167 0282 0297 
 ACIADA     8019 *0008 0285 0302 
 BADDR      e047 *0064 0045 0109 
-BCCOUTEEE1 e1d7 *0300 
 BEGA       3182 *0314 0220 
 BYTE       e055 *0072 0040 0048 0064 0066 0120 
 BYTECT     318b *0321 0042 0049 
@@ -549,7 +547,7 @@ OUT2HS     e0ca *0149 0115 0205 0206 0207
 OUT4HS     e0c8 *0148 0113 0208 0209 0211 
 OUTCH      e075 *0097 0025 0028 0059 0093 0101 0153 
 OUTEEE     e1d1 *0296 0097 0289 
-OUTEEE1    e1d2 *0297 
+OUTEEE1    e1d2 *0297 0300 
 OUTHL      e067 *0086 0142 
 OUTHR      e06b *0090 0145 
 OUTS       e0cc *0152 0175 

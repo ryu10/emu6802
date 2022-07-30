@@ -15,7 +15,7 @@
 /*
  * 
  */
-volatile AB_t ab;
+AB_t ab;
 volatile int MemAccess;
 
 inline void readAddress(void){

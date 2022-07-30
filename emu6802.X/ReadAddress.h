@@ -22,7 +22,7 @@ typedef union  {
     };
 }AB_t;
 
-extern volatile AB_t ab;
+extern AB_t ab;
 extern volatile int MemAccess;
 
 inline void readAddress(void);
