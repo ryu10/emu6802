@@ -52,6 +52,7 @@
 #include "clc1.h"
 #include "interrupt_manager.h"
 #include "../ReadAddress.h"
+#include "../PortAssign.h"
 
 /**
   Section: CLC1 APIs
@@ -94,6 +95,10 @@ void CLC1_Initialize(void)
 
 void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
 {
+    // Enable Mem access stretch
+//    CLCSELECT = 1; // select CLC2=MRdy FF
+    MPU_MRDY = 0;
+    
     readAddress();
     // Clear the CLC interrupt flag
     PIR0bits.CLC1IF = 0;

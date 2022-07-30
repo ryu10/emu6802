@@ -8,6 +8,8 @@
 #ifndef READADDRESS_H
 #define	READADDRESS_H
 
+#include "PortAssign.h"
+
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -20,7 +22,7 @@ typedef union  {
     };
 }AB_t;
 
-extern AB_t ab;
+extern volatile AB_t ab;
 extern volatile int MemAccess;
 
 inline void readAddress(void);

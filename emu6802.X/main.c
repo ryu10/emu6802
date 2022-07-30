@@ -56,8 +56,8 @@ int main(int argc, char** argv) {
     cp_basic();
 
     // set mikbug 'G' vector to 0x0000 altair start address
-    ram1[0x7f48 - RAM1_BEG] = 0x00;
-    ram1[0x7f49 - RAM1_BEG] = 0x00;
+    ram[0x31c8 - RAM_BEG] = 0x70;  // $31C8
+    ram[0x31c9 - RAM_BEG] = 0x00;  // $31C9
     
     MemAccess = 0; 
     // Enable global interrupts
@@ -72,28 +72,17 @@ int main(int argc, char** argv) {
 
     while(1) {
         if(MemAccess){
-            MPU_MRDY = 0; // extend mem cycle phase
-         
-            // Switch R/W
             if(MPU_RW){
                 // MPU read = PIC Data bus output
                 MPU_DDIR = 0;
-                if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
-                    LATC = ram0[ab.w - RAM0_BEG];
-                }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
-                    LATC = ram1[ab.w - RAM1_BEG];
-                }else if((ab.w >= ROM1_BEG) && (ab.w < ROM1_END)){ // basic patch
-                    LATC = rom1[ab.w - ROM1_BEG];
+                if((ab.w >= RAM_BEG) && (ab.w < RAM_END)){ // main ram
+                    LATC = ram[ab.w - RAM_BEG];
                 }else if(ab.w == UART_DREG){
                     LATC = U3RXB;
                 }else if(ab.w == UART_CREG){
                     LATC = PIR9;
-                }else if((ab.w >= ROM2_BEG) && (ab.w < ROM2_END)){ // mikbug
-                    LATC = rom2[ab.w - ROM2_BEG];
-                }else if((ab.w >= ROM4_BEG) && (ab.w < ROM4_END)){ // copy 128b
-                    LATC = rom4[ab.w - ROM4_BEG];
-                }else if(ab.w >= ROM3_BEG){ // vectors
-                    LATC = rom3[ab.w - ROM3_BEG];
+                }else if(ab.w >= ROM_BEG){ // 16k rom
+                    LATC = rom[ab.w - ROM_BEG];
                 }
                 MemAccess = 0; 
                 // Clear Mem Stretch
@@ -102,15 +91,12 @@ int main(int argc, char** argv) {
                 MPU_DDIR = 0xff;
             }else{
                 // MPU write = PIC Data bus input
-                // MPU_DDIR = 0xff;
                 while(MPU_E==0){;} // wait until the second half of MPU cycle
 //                _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 _delay(14); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 d = PORTC;
-                if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
-                    ram0[ab.w - RAM0_BEG] = d;
-                }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
-                    ram1[ab.w - RAM1_BEG] = d;
+                if((ab.w >= RAM_BEG) && (ab.w < RAM_END)){ // main ram
+                    ram[ab.w - RAM_BEG] = d;
                 }else if(ab.w == UART_DREG){
                     U3TXB = d;
                 }
@@ -118,11 +104,6 @@ int main(int argc, char** argv) {
                 // Clear Mem Stretch
                 MPU_MRDY = 1;
             }
-            // MemAccess = 0;
-            // // Clear Mem Stretch
-            // MPU_MRDY = 1;
-            // // after a write phase, we should wait for at least tDHW = 30ns here but omit it for now
-            // MPU_DDIR = 0;
         }
     }
 

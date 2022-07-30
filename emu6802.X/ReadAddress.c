@@ -15,7 +15,7 @@
 /*
  * 
  */
-AB_t ab;
+volatile AB_t ab;
 volatile int MemAccess;
 
 inline void readAddress(void){
@@ -23,7 +23,7 @@ inline void readAddress(void){
     // read MPU address bus
     ab.h = PORTD;
     ab.l = PORTB;
-    if(ab.w < RAM0_BEG){ return ; } // do not disrupt hw ram access
+    if(ab.w < RAM_BEG){ return ; } // do not disrupt hw ram access
     
     // Enable Mem access stretch
 //    CLCSELECT = 1; // select CLC2=MRdy FF
