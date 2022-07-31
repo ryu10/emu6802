@@ -56,7 +56,7 @@ int main(int argc, char** argv) {
     cp_basic();
 
     // set mikbug 'G' vector to 0x0000 altair start address
-    ram[0x31c8 - RAM_BEG] = 0x70;  // $31C8
+    ram[0x31c8 - RAM_BEG] = 0x00;  // $31C8
     ram[0x31c9 - RAM_BEG] = 0x00;  // $31C9
     
     MemAccess = 0; 
