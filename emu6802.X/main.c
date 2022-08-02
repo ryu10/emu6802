@@ -56,8 +56,8 @@ int main(int argc, char** argv) {
     cp_basic();
 
     // set mikbug 'G' vector to 0x0000 altair start address
-    ram[0x31c8 - RAM_BEG] = 0x00;  // $31C8
-    ram[0x31c9 - RAM_BEG] = 0x00;  // $31C9
+    ram[0x3148 - RAM_BEG] = 0x00;
+    ram[0x3149 - RAM_BEG] = 0x00;
     
     MemAccess = 0; 
     // Enable global interrupts
@@ -75,8 +75,8 @@ int main(int argc, char** argv) {
             if(MPU_RW){
                 // MPU read = PIC Data bus output
                 MPU_DDIR = 0;
-                if((ab.w >= RAM_BEG) && (ab.w < RAM_END)){ // main ram
-                    LATC = ram[ab.w - RAM_BEG];
+                if(ab.w < RAM_END){ // main ram
+                    LATC = ram[ab.w];
                 }else if(ab.w == UART_DREG){
                     LATC = U3RXB;
                 }else if(ab.w == UART_CREG){
@@ -95,8 +95,8 @@ int main(int argc, char** argv) {
 //                _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 _delay(14); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 d = PORTC;
-                if((ab.w >= RAM_BEG) && (ab.w < RAM_END)){ // main ram
-                    ram[ab.w - RAM_BEG] = d;
+                if(ab.w < RAM_END){ // main ram
+                    ram[ab.w] = d;
                 }else if(ab.w == UART_DREG){
                     U3TXB = d;
                 }
