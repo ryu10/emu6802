@@ -27,7 +27,7 @@ extern const uint8_t rom0[];
 #define RAM_END 0x2080
 #define RAM_SIZ (RAM_END - RAM_BEG) // 0x2000 (8,192 bytes)
 
-extern uint8_t ram[];
+extern volatile uint8_t ram[];
 
 
 /* rom: main rom 16KB */
@@ -41,7 +41,7 @@ extern const uint8_t rom[];
 #define UART_DREG 0x8019 // UART Data
 #define UART_CREG 0x8018 // UART Ctrl
 
-extern void cp_basic();
+extern void cp_basic(void);
 
 #ifdef	__cplusplus
 }

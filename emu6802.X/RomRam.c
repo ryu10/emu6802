@@ -888,7 +888,7 @@ const uint8_t rom0[] = {
 #define RAM_SIZ (RAM_END - RAM_BEG) // 0x2000 (8,192 bytes)
 */
 
-uint8_t ram[RAM_SIZ];
+volatile uint8_t ram[RAM_SIZ]__at(0x1000);
 
 /* rom: main rom 16KB 
    mikbug + basic patch + basic 128B copy 
@@ -897,7 +897,7 @@ uint8_t ram[RAM_SIZ];
 #define ROM_SIZ (ROM_END - ROM_BEG) // 0x4000 (16KB)
 */
 
-const uint8_t rom[] = {
+const uint8_t rom[ROM_SIZ] __at(0xc000)= {
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
