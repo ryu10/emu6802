@@ -6,17 +6,17 @@
 0006                               *	ADDRESS
 0007 8018                          ACIACS	EQU	$8018
 0008 8019                          ACIADA	EQU	$8019
-0009 3180                          VAR	EQU	$3180
+0009 3100                          VAR	EQU	$3100
 0010                               *
 0011                               *	OPT	MEMORY
 0012 e000                          	ORG	$E000
 0013                               *
 0014                               *	I/O INTERRUPT SEQUENCE
-0015 e000 fe 31 80           [ 5 ] IO	LDX	IOV
+0015 e000 fe 31 00           [ 5 ] IO	LDX	IOV
 0016 e003 6e 00              [ 4 ] 	JMP ,X
 0017                               *
 0018                               *	NMI SEQUENCE
-0019 e005 fe 31 86           [ 5 ] POWDWN	LDX	NIO	GET NMI VECTOR
+0019 e005 fe 31 06           [ 5 ] POWDWN	LDX	NIO	GET NMI VECTOR
 0020 e008 6e 00              [ 4 ] 	JMP ,X
 0021                               *
 0022                               *	L COMMAND
@@ -36,24 +36,24 @@
 0036 e01d 27 25              [ 4 ] 	BEQ	LOAD21	START ADDRESS
 0037 e01f 81 31              [ 2 ] 	CMPA	#'1
 0038 e021 26 f0              [ 4 ] 	BNE	LOAD3	2ND CHAR NOT (1)
-0039 e023 7f 31 8a           [ 6 ] 	CLR	CKSM	ZERO CHECKSUM
+0039 e023 7f 31 0a           [ 6 ] 	CLR	CKSM	ZERO CHECKSUM
 0040 e026 8d 2d              [ 8 ] 	BSR	BYTE	READ BYTE
 0041 e028 80 02              [ 2 ] 	SUBA	#2
-0042 e02a b7 31 8b           [ 5 ] 	STAA	BYTECT	BYTE COUNT
+0042 e02a b7 31 0b           [ 5 ] 	STAA	BYTECT	BYTE COUNT
 0043                               *
 0044                               *	BUILD ADDRESS
 0045 e02d 8d 18              [ 8 ] 	BSR	BADDR
 0046                               *
 0047                               *	STORE DATA
 0048 e02f 8d 24              [ 8 ] LOAD11	BSR	BYTE
-0049 e031 7a 31 8b           [ 6 ] 	DEC	BYTECT
+0049 e031 7a 31 0b           [ 6 ] 	DEC	BYTECT
 0050 e034 27 05              [ 4 ] 	BEQ	LOAD15	ZERO BYTE COUNT
 0051 e036 a7 00              [ 6 ] 	STAA ,X	STORE DATA
 0052 e038 08                 [ 4 ] 	INX
 0053 e039 20 f4              [ 4 ] 	BRA	LOAD11
 0054                               *
 0055                               *	ZERO BYTE COUNT
-0056 e03b 7c 31 8a           [ 6 ] LOAD15	INC	CKSM
+0056 e03b 7c 31 0a           [ 6 ] LOAD15	INC	CKSM
 0057 e03e 27 d3              [ 4 ] 	BEQ	LOAD3
 0058 e040 86 3f              [ 2 ] LOAD19	LDAA	#'?	PRINT QUESTION MARK
 0059 e042 8d 31              [ 8 ] 	BSR	OUTCH
@@ -62,10 +62,10 @@
 0062                               *
 0063                               *	BUILD ADDRESS
 0064 e047 8d 0c              [ 8 ] BADDR	BSR	BYTE	READ 2 FRAMES
-0065 e049 b7 31 8c           [ 5 ] 	STAA	XHI
+0065 e049 b7 31 0c           [ 5 ] 	STAA	XHI
 0066 e04c 8d 07              [ 8 ] 	BSR	BYTE
-0067 e04e b7 31 8d           [ 5 ] 	STAA	XLOW
-0068 e051 fe 31 8c           [ 5 ] 	LDX	XHI	(X) ADDRESS WE BUILT
+0067 e04e b7 31 0d           [ 5 ] 	STAA	XLOW
+0068 e051 fe 31 0c           [ 5 ] 	LDX	XHI	(X) ADDRESS WE BUILT
 0069 e054 39                 [ 5 ] 	RTS
 0070                               *
 0071                               *	INPUT BYTE (TWO FRAMES)
@@ -78,8 +78,8 @@
 0078 e05c 8d 4c              [ 8 ] 	BSR	INHEX
 0079 e05e 1b                 [ 2 ] 	ABA
 0080 e05f 16                 [ 2 ] 	TAB
-0081 e060 fb 31 8a           [ 4 ] 	ADDB	CKSM
-0082 e063 f7 31 8a           [ 5 ] 	STAB	CKSM
+0081 e060 fb 31 0a           [ 4 ] 	ADDB	CKSM
+0082 e063 f7 31 0a           [ 5 ] 	STAB	CKSM
 0083 e066 39                 [ 5 ] 	RTS
 0084                               *
 0085                               *	OUT HEX BCD DIGIT
@@ -109,11 +109,11 @@
 0109 e085 8d c0              [ 8 ] CHANGE	BSR	BADDR	BUILD ADDRESS
 0110 e087 ce e1 9d           [ 3 ] CHA51	LDX	#MCL
 0111 e08a 8d f2              [ 8 ] 	BSR	PDATA1	C/R L/F
-0112 e08c ce 31 8c           [ 3 ] 	LDX	#XHI
+0112 e08c ce 31 0c           [ 3 ] 	LDX	#XHI
 0113 e08f 8d 37              [ 8 ] 	BSR	OUT4HS	PRINT ADDRESS
-0114 e091 fe 31 8c           [ 5 ] 	LDX	XHI
+0114 e091 fe 31 0c           [ 5 ] 	LDX	XHI
 0115 e094 8d 34              [ 8 ] 	BSR	OUT2HS	PRINT DATA (OLD)
-0116 e096 ff 31 8c           [ 6 ] 	STX	XHI	SAVE DATA ADDRESS
+0116 e096 ff 31 0c           [ 6 ] 	STX	XHI	SAVE DATA ADDRESS
 0117 e099 8d dd              [ 8 ] 	BSR	INCH	INPUT ONE CHAR
 0118 e09b 81 20              [ 2 ] 	CMPA	#$20
 0119 e09d 26 e8              [ 4 ] 	BNE	CHA51	NOT SPACE
@@ -154,8 +154,8 @@
 0154                               *
 0155                               *	ENTER POWER  ON SEQUENCE
 0156 e0d0                          START	EQU	*
-0157 e0d0 8e 31 c2           [ 3 ] 	LDS	#STACK
-0158 e0d3 bf 31 88           [ 6 ] 	STS	SP	INZ TARGET'S STACK PNTR
+0157 e0d0 8e 31 42           [ 3 ] 	LDS	#STACK
+0158 e0d3 bf 31 08           [ 6 ] 	STS	SP	INZ TARGET'S STACK PNTR
 0159                               *
 0160                               *	ACIA INITIALIZE
 0161 e0d6 86 03              [ 2 ] 	LDAA	#$03	RESET CODE
@@ -167,7 +167,7 @@
 0167 e0e0 b7 80 18           [ 5 ]         STAA	ACIACS
 0168                               *
 0169                               *	COMMAND CONTROL
-0170 e0e3 8e 31 c2           [ 3 ] CONTRL	LDS	#STACK	SET CONTRL STACK POINTER
+0170 e0e3 8e 31 42           [ 3 ] CONTRL	LDS	#STACK	SET CONTRL STACK POINTER
 0171 e0e6 ce e1 9d           [ 3 ] 	LDX	#MCL
 0172 e0e9 8d 93              [ 8 ] 	BSR	PDATA1	PRINT DATA STRING
 0173 e0eb 8d 8b              [ 8 ] 	BSR	INCH	READ CHARACTER
@@ -184,14 +184,14 @@
 0184 e101 27 3a              [ 4 ] 	BEQ	PUNCH	PRINT/PUNCH
 0185 e103 c1 47              [ 2 ] 	CMPB	#'G
 0186 e105 26 dc              [ 4 ] 	BNE	CONTRL
-0187 e107 be 31 88           [ 5 ] 	LDS	SP	RESTORE PGM'S STACK PTR
+0187 e107 be 31 08           [ 5 ] 	LDS	SP	RESTORE PGM'S STACK PTR
 0188 e10a 3b                 [10 ] 	RTI	GO
 0189 e10b 01 01 01 01 01 01        	FCB	1,1,1,1,1,1,1,1	GRUE
      01 01
 0190                               *
 0191                               *	ENTER FROM SOFTWARE INTERRUPT
 0192 e113                          SFE	EQU	*
-0193 e113 bf 31 88           [ 6 ] 	STS	SP	SAVE TARGET'S STACK POINTER
+0193 e113 bf 31 08           [ 6 ] 	STS	SP	SAVE TARGET'S STACK POINTER
 0194                               *
 0195                               *	DECREMENT P-COUNTER
 0196 e116 30                 [ 4 ] 	TSX
@@ -201,14 +201,14 @@
 0200 e11d 6a 06              [ 7 ] 	DEC	6,X
 0201                               *
 0202                               *	PRINT CONTENTS OF STACK
-0203 e11f fe 31 88           [ 5 ] PRINT	LDX	SP
+0203 e11f fe 31 08           [ 5 ] PRINT	LDX	SP
 0204 e122 08                 [ 4 ] 	INX
 0205 e123 8d a5              [ 8 ] 	BSR	OUT2HS	CONDITION CODES
 0206 e125 8d a3              [ 8 ] 	BSR	OUT2HS	ACC-B
 0207 e127 8d a1              [ 8 ] 	BSR	OUT2HS	ACC-A
 0208 e129 8d 9d              [ 8 ] 	BSR	OUT4HS	X-REG
 0209 e12b 8d 9b              [ 8 ] 	BSR	OUT4HS	P-COUNTER
-0210 e12d ce 31 88           [ 3 ] 	LDX	#SP
+0210 e12d ce 31 08           [ 3 ] 	LDX	#SP
 0211 e130 8d 96              [ 8 ] 	BSR	OUT4HS	STACK POINTER
 0212 e132 20 af              [ 4 ] C2	BRA	CONTRL
 0213                               *
@@ -218,20 +218,20 @@
 0217 e134 0d 0a 53 31 04           MTAPE1	FCB	$D,$A,'S,'1, 4	PUNCH FORMAT
 0218 e139 01 01 01 01              	FCB	1,1,1,1	GRUE
 0219 e13d                          PUNCH	EQU	*
-0220 e13d fe 31 82           [ 5 ] 	LDX	BEGA
-0221 e140 ff 31 8f           [ 6 ] 	STX	TW	TEMP BEGINING ADDRESS
-0222 e143 b6 31 85           [ 4 ] PUN11	LDAA	ENDA+1
-0223 e146 b0 31 90           [ 4 ] 	SUBA	TW+1
-0224 e149 f6 31 84           [ 4 ] 	LDAB	ENDA
-0225 e14c f2 31 8f           [ 4 ] 	SBCB	TW
+0220 e13d fe 31 02           [ 5 ] 	LDX	BEGA
+0221 e140 ff 31 0f           [ 6 ] 	STX	TW	TEMP BEGINING ADDRESS
+0222 e143 b6 31 05           [ 4 ] PUN11	LDAA	ENDA+1
+0223 e146 b0 31 10           [ 4 ] 	SUBA	TW+1
+0224 e149 f6 31 04           [ 4 ] 	LDAB	ENDA
+0225 e14c f2 31 0f           [ 4 ] 	SBCB	TW
 0226 e14f 26 04              [ 4 ] 	BNE	PUN22
 0227 e151 81 10              [ 2 ] 	CMPA	#16
 0228 e153 25 02              [ 4 ] 	BCS	PUN23
 0229 e155 86 0f              [ 2 ] PUN22	LDAA	#15
 0230 e157 8b 04              [ 2 ] PUN23	ADDA	#4
-0231 e159 b7 31 91           [ 5 ] 	STAA	MCONT	FRAME COUNT THIS RECORD
+0231 e159 b7 31 11           [ 5 ] 	STAA	MCONT	FRAME COUNT THIS RECORD
 0232 e15c 80 03              [ 2 ] 	SUBA	#3
-0233 e15e b7 31 8e           [ 5 ] 	STAA	TEMP	BYTE COUNT THIS RECORD
+0233 e15e b7 31 0e           [ 5 ] 	STAA	TEMP	BYTE COUNT THIS RECORD
 0234                               *
 0235                               *	PUNCH C/R,L/F,NULL,S,1
 0236 e161 ce e1 34           [ 3 ] 	LDX	#MTAPE1
@@ -239,28 +239,28 @@
 0238 e167 5f                 [ 2 ] 	CLRB		ZERO CHECKSUM
 0239                               *
 0240                               *	PUNCH FRAME COUNT
-0241 e168 ce 31 91           [ 3 ] 	LDX	#MCONT
+0241 e168 ce 31 11           [ 3 ] 	LDX	#MCONT
 0242 e16b 8d 25              [ 8 ] 	BSR	PUNT2	PUNCH 2 HEX CHAR
 0243                               *
 0244                               *	PUNCH ADDRESS
-0245 e16d ce 31 8f           [ 3 ] 	LDX	#TW
+0245 e16d ce 31 0f           [ 3 ] 	LDX	#TW
 0246 e170 8d 20              [ 8 ] 	BSR	PUNT2
 0247 e172 8d 1e              [ 8 ] 	BSR	PUNT2
 0248                               *
 0249                               *	PUNCH DATA
-0250 e174 fe 31 8f           [ 5 ] 	LDX	TW
+0250 e174 fe 31 0f           [ 5 ] 	LDX	TW
 0251 e177 8d 19              [ 8 ] PUN32	BSR	PUNT2	PUNCH ONE BYTE (2 FRAMES)
-0252 e179 7a 31 8e           [ 6 ] 	DEC	TEMP	DEC BYTE COUNT
+0252 e179 7a 31 0e           [ 6 ] 	DEC	TEMP	DEC BYTE COUNT
 0253 e17c 26 f9              [ 4 ] 	BNE	PUN32
-0254 e17e ff 31 8f           [ 6 ] 	STX	TW
+0254 e17e ff 31 0f           [ 6 ] 	STX	TW
 0255 e181 53                 [ 2 ] 	COMB
 0256 e182 37                 [ 4 ] 	PSHB
 0257 e183 30                 [ 4 ] 	TSX
 0258 e184 8d 0c              [ 8 ] 	BSR	PUNT2	PUNCH CHECKSUM
 0259 e186 33                 [ 4 ] 	PULB		RESTORE STACK
-0260 e187 fe 31 8f           [ 5 ] 	LDX	TW
+0260 e187 fe 31 0f           [ 5 ] 	LDX	TW
 0261 e18a 09                 [ 4 ] 	DEX
-0262 e18b bc 31 84           [ 5 ] 	CPX	ENDA
+0262 e18b bc 31 04           [ 5 ] 	CPX	ENDA
 0263 e18e 26 b3              [ 4 ] 	BNE	PUN11
 0264 e190 20 a0              [ 4 ] 	BRA	C2	JMP TO CONTRL
 0265                               *
@@ -273,7 +273,7 @@
 0272 e1a1 01 01 01 01              	FCB	1,1,1,1	GRUE
 0273                               *
 0274                               *	SAVE X REGISTER
-0275 e1a5 ff 31 92           [ 6 ] SAV	STX	XTEMP
+0275 e1a5 ff 31 12           [ 6 ] SAV	STX	XTEMP
 0276 e1a8 39                 [ 5 ] 	RTS
 0277 e1a9 01 01 01                 	FCB	1,1,1	GRUE
 0278                               *
@@ -312,24 +312,24 @@
 0309 fffc e0 05                    	FDB	POWDWN
 0310 fffe e0 d0                    	FDB	START
 0311                               
-0312 3180                                  ORG    VAR
-0313 3180                          IOV     RMB    2         IO INTERRUPT POINTER
-0314 3182                          BEGA    RMB    2         BEGINING ADDR PRINT/PUNCH
-0315 3184                          ENDA    RMB    2         ENDING ADDR PRINT/PUNCH
-0316 3186                          NIO     RMB    2         NMI INTERRUPT POINTER
-0317 3188                          SP      RMB    1         S-HIGH
-0318 3189                                  RMB    1         S-LOW
-0319 318a                          CKSM    RMB    1         CHECKSUM
+0312 3100                                  ORG    VAR
+0313 3100                          IOV     RMB    2         IO INTERRUPT POINTER
+0314 3102                          BEGA    RMB    2         BEGINING ADDR PRINT/PUNCH
+0315 3104                          ENDA    RMB    2         ENDING ADDR PRINT/PUNCH
+0316 3106                          NIO     RMB    2         NMI INTERRUPT POINTER
+0317 3108                          SP      RMB    1         S-HIGH
+0318 3109                                  RMB    1         S-LOW
+0319 310a                          CKSM    RMB    1         CHECKSUM
 0320                               
-0321 318b                          BYTECT  RMB    1         BYTE COUNT
-0322 318c                          XHI     RMB    1         XREG HIGH
-0323 318d                          XLOW    RMB    1         XREG LOW
-0324 318e                          TEMP    RMB    1         CHAR COUNT (INADD)
-0325 318f                          TW      RMB    2         TEMP
-0326 3191                          MCONT   RMB    1         TEMP
-0327 3192                          XTEMP   RMB    2         X-REG TEMP STORAGE
-0328 3194                                  RMB    46
-0329 31c2                          STACK   RMB    1         STACK POINTER
+0321 310b                          BYTECT  RMB    1         BYTE COUNT
+0322 310c                          XHI     RMB    1         XREG HIGH
+0323 310d                          XLOW    RMB    1         XREG LOW
+0324 310e                          TEMP    RMB    1         CHAR COUNT (INADD)
+0325 310f                          TW      RMB    2         TEMP
+0326 3111                          MCONT   RMB    1         TEMP
+0327 3112                          XTEMP   RMB    2         X-REG TEMP STORAGE
+0328 3114                                  RMB    46
+0329 3142                          STACK   RMB    1         STACK POINTER
 0330                               *
 0331                               * END OF MIKBUG
 0332                               *
@@ -346,116 +346,57 @@
 0343                               *;* Program Code / Data Areas                        *
 0344                               *;****************************************************
 0345                               
-0346                               *        * ORG     $041F
+0346                               *       ORG     $041F
 0347                               
-0348                               *        * JSR     Z1F85                    ;041F: BD e2 05      '...'
+0348                               *       JSR     Z1F85                    ;041f bd e2 85       '...'
 0349                               
-0350                               *        * ORG     $0618 
+0350                               *       ORG     $0618 
 0351                               
-0352                               *        * JSR     Z1F80                    ;0618: BD e2 00       '...'
+0352                               *       JSR     Z1F80                    ;0618 bd e2 80         '...'
 0353                               
-0354                               *        * ORG     $08AD 
+0354                               *       ORG     $08AD 
 0355                               
-0356                               *        * JSR     Z1F8D                    ;08AD: BD e2 0d       '...'
+0356                               *       JSR     Z1F8D                    ;08ad bd e2 8D       '...'
 0357                               
-0358 e200                                  ORG     $E200
+0358 e280                                  ORG     $E280
 0359                               
-0360 e200 f6 80 18           [ 4 ] Z1F80   LDAB    M8018                    ;1F80: F6 80 18       '...'
-0361 e203 57                 [ 2 ]         ASRB                             ;1F83: 57             'W'
-0362 e204 39                 [ 5 ]         RTS                              ;1F84: 39             '9'
-0363 e205 8d f9              [ 8 ] Z1F85   BSR     Z1F80                    ;1F85: 8D F9          '..'
-0364 e207 24 fc              [ 4 ]         BCC     Z1F85                    ;1F87: 24 FC          '$.'
-0365 e209 f6 80 19           [ 4 ]         LDAB    M8019                    ;1F89: F6 80 19       '...'
-0366 e20c 39                 [ 5 ]         RTS                              ;1F8C: 39             '9'
-0367 e20d 8d f1              [ 8 ] Z1F8D   BSR     Z1F80                    ;1F8D: 8D F1          '..'
-0368 e20f 57                 [ 2 ]         ASRB                             ;1F8F: 57             'W'
-0369 e210 24 fb              [ 4 ]         BCC     Z1F8D                    ;1F90: 24 FB          '$.'
-0370 e212 84 7f              [ 2 ]         ANDA    #$7F                     ;1F92: 84 7F          '..'
-0371 e214 b7 80 19           [ 5 ]         STAA    M8019                    ;1F94: B7 80 19       '...'
-0372 e217 39                 [ 5 ]         RTS                              ;1F97: 39             '9'        
+0360 e280 f6 80 18           [ 4 ] Z1F80   LDAB    M8018                    ;1F80: F6 80 18       '...'
+0361 e283 57                 [ 2 ]         ASRB                             ;1F83: 57             'W'
+0362 e284 39                 [ 5 ]         RTS                              ;1F84: 39             '9'
+0363 e285 8d f9              [ 8 ] Z1F85   BSR     Z1F80                    ;1F85: 8D F9          '..'
+0364 e287 24 fc              [ 4 ]         BCC     Z1F85                    ;1F87: 24 FC          '$.'
+0365 e289 f6 80 19           [ 4 ]         LDAB    M8019                    ;1F89: F6 80 19       '...'
+0366 e28c 39                 [ 5 ]         RTS                              ;1F8C: 39             '9'
+0367 e28d 8d f1              [ 8 ] Z1F8D   BSR     Z1F80                    ;1F8D: 8D F1          '..'
+0368 e28f 57                 [ 2 ]         ASRB                             ;1F8F: 57             'W'
+0369 e290 24 fb              [ 4 ]         BCC     Z1F8D                    ;1F90: 24 FB          '$.'
+0370 e292 84 7f              [ 2 ]         ANDA    #$7F                     ;1F92: 84 7F          '..'
+0371 e294 b7 80 19           [ 5 ]         STAA    M8019                    ;1F94: B7 80 19       '...'
+0372 e297 39                 [ 5 ]         RTS                              ;1F97: 39             '9'        
 0373                               
 0374                               *
-0375                               * ROM COPY128B
-0376 e0d0                          MIKBUG  equ $e0d0
-0377                               *
-0378 2000                                  ORG $2000  * somewhere in ram0[] before ABasic inits
-0379 2000                          SRC     equ *
-0380 2002                          DST     equ *+2 
-0381                               *
-0382 e280                                  ORG $E280
-0383 e280 ce e2 a4           [ 3 ] start   ldx #DATA128
-0384 e283 ff 20 00           [ 6 ]         stx SRC
-0385 e286 ce 00 00           [ 3 ]         ldx #0
-0386 e289 ff 20 02           [ 6 ]         stx DST
-0387 e28c 86 80              [ 2 ]         ldaa #128
-0388 e28e fe 20 00           [ 5 ] next    ldx SRC
-0389 e291 e6 00              [ 5 ]         ldab 0,X
-0390 e293 7c 20 01           [ 6 ]         inc SRC+1  * OK only 128 bytes are transferred
-0391 e296 fe 20 02           [ 5 ]         ldx DST
-0392 e299 e7 00              [ 6 ]         stab 0,X
-0393 e29b 7c 20 03           [ 6 ]         inc DST+1
-0394 e29e 4a                 [ 2 ]         deca
-0395 e29f 26 ed              [ 4 ]         bne next
-0396 e2a1 7e e0 d0           [ 3 ]         jmp #MIKBUG
-0397                                       end
-0398                               *
-0399 e2a4 0d 76 00 f3 7e 18        DATA128 fcb  $0d, $76, $00, $f3, $7e, $18, $f9, $7e
-     f9 7e
-0400 e2ac 03 3c 00 00 48 38                fcb  $03, $3c, $00, $00, $48, $38, $00, $2c
-     00 2c
-0401 e2b4 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0402 e2bc 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0403 e2c4 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0404 e2cc 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0405 e2d4 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0406 e2dc 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0407 e2e4 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0408 e2ec 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0409 e2f4 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0410 e2fc 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0411 e304 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0412 e30c 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0413 e314 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0414 e31c 00 00 00 00 00 00                fcb  $00, $00, $00, $00, $00, $00, $00, $00
-     00 00
-0415                               
-0416                               *
-0417                                       END  $00, $00, $00, $00, $00, $00, $00, $00
+0375                               
+0376                                       END                              ;1F97: 39             '9'        
 ACIACS     8018
 ACIADA     8019
 BADDR      e047
-BEGA       3182
+BEGA       3102
 BYTE       e055
-BYTECT     318b
+BYTECT     310b
 C1         e044
 C2         e132
 CHA51      e087
 CHANGE     e085
-CKSM       318a
+CKSM       310a
 CONTRL     e0e3
-DATA128    e2a4
-DST        2002
-ENDA       3184
+ENDA       3104
 IN1        e1ae
 IN1HG      e0be
 INCH       e078
 INEEE      e1ac
 INHEX      e0aa
 IO         e000
-IOV        3180
+IOV        3100
 LOAD       e00a
 LOAD11     e02f
 LOAD15     e03b
@@ -465,10 +406,9 @@ LOAD3      e013
 M8018      8018
 M8019      8019
 MCL        e19d
-MCONT      3191
-MIKBUG     e0d0
+MCONT      3111
 MTAPE1     e134
-NIO        3186
+NIO        3106
 OUT2H      e0bf
 OUT2HA     e0c1
 OUT2HS     e0ca
@@ -491,43 +431,38 @@ PUNCH      e13d
 PUNT2      e192
 SAV        e1a5
 SFE        e113
-SP         3188
-SRC        2000
-STACK      31c2
+SP         3108
+STACK      3142
 START      e0d0
-TEMP       318e
-TW         318f
-VAR        3180
-XHI        318c
-XLOW       318d
-XTEMP      3192
-Z1F80      e200
-Z1F85      e205
-Z1F8D      e20d
-next       e28e
-start      e280
+TEMP       310e
+TW         310f
+VAR        3100
+XHI        310c
+XLOW       310d
+XTEMP      3112
+Z1F80      e280
+Z1F85      e285
+Z1F8D      e28d
 ACIACS     8018 *0007 0162 0167 0282 0297 
 ACIADA     8019 *0008 0285 0302 
 BADDR      e047 *0064 0045 0109 
-BEGA       3182 *0314 0220 
+BEGA       3102 *0314 0220 
 BYTE       e055 *0072 0040 0048 0064 0066 0120 
-BYTECT     318b *0321 0042 0049 
+BYTECT     310b *0321 0042 0049 
 C1         e044 *0061 0130 0134 0136 
 C2         e132 *0212 0264 
 CHA51      e087 *0110 0119 0124 
 CHANGE     e085 *0109 0180 
-CKSM       318a *0319 0039 0056 0081 0082 
+CKSM       310a *0319 0039 0056 0081 0082 
 CONTRL     e0e3 *0170 0061 0186 0212 
-DATA128    e2a4 *0399 0383 
-DST        2002 *0380 0386 0391 0393 
-ENDA       3184 *0315 0222 0224 0262 
+ENDA       3104 *0315 0222 0224 0262 
 IN1        e1ae *0282 0284 0288 
 IN1HG      e0be *0138 0132 
 INCH       e078 *0098 0031 0034 0117 0128 0173 
 INEEE      e1ac *0280 0098 
 INHEX      e0aa *0128 0072 0078 
 IO         e000 *0015 0307 
-IOV        3180 *0313 0015 
+IOV        3100 *0313 0015 
 LOAD       e00a *0023 0178 
 LOAD11     e02f *0048 0053 
 LOAD15     e03b *0056 0050 
@@ -537,10 +472,9 @@ LOAD3      e013 *0031 0033 0038 0057
 M8018      8018 *0339 0360 
 M8019      8019 *0340 0365 0371 
 MCL        e19d *0271 0110 0171 
-MCONT      3191 *0326 0231 0241 
-MIKBUG     e0d0 *0376 0396 
+MCONT      3111 *0326 0231 0241 
 MTAPE1     e134 *0217 0236 
-NIO        3186 *0316 0019 
+NIO        3106 *0316 0019 
 OUT2H      e0bf *0141 0148 0149 0268 
 OUT2HA     e0c1 *0142 
 OUT2HS     e0ca *0149 0115 0205 0206 0207 
@@ -563,18 +497,15 @@ PUNCH      e13d *0219 0184
 PUNT2      e192 *0267 0242 0246 0247 0251 0258 
 SAV        e1a5 *0275 0281 
 SFE        e113 *0192 0308 
-SP         3188 *0317 0158 0187 0193 0203 0210 
-SRC        2000 *0379 0384 0388 0390 
-STACK      31c2 *0329 0157 0170 
+SP         3108 *0317 0158 0187 0193 0203 0210 
+STACK      3142 *0329 0157 0170 
 START      e0d0 *0156 0310 
-TEMP       318e *0324 0233 0252 
-TW         318f *0325 0221 0223 0225 0245 0250 0254 0260 
-VAR        3180 *0009 0312 
-XHI        318c *0322 0065 0068 0112 0114 0116 
-XLOW       318d *0323 0067 
-XTEMP      3192 *0327 0275 
-Z1F80      e200 *0360 0363 0367 
-Z1F85      e205 *0363 0364 
-Z1F8D      e20d *0367 0369 
-next       e28e *0388 0395 
-start      e280 *0383 
+TEMP       310e *0324 0233 0252 
+TW         310f *0325 0221 0223 0225 0245 0250 0254 0260 
+VAR        3100 *0009 0312 
+XHI        310c *0322 0065 0068 0112 0114 0116 
+XLOW       310d *0323 0067 
+XTEMP      3112 *0327 0275 
+Z1F80      e280 *0360 0363 0367 
+Z1F85      e285 *0363 0364 
+Z1F8D      e28d *0367 0369 

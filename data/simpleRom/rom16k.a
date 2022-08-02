@@ -6,7 +6,7 @@
 *	ADDRESS
 ACIACS	EQU	$8018
 ACIADA	EQU	$8019
-VAR	EQU	$3180
+VAR	EQU	$3100
 *
 *	OPT	MEMORY
 	ORG	$E000
@@ -343,19 +343,19 @@ M8019   EQU     $8019
 *;* Program Code / Data Areas                        *
 *;****************************************************
 
-*        * ORG     $041F
+*       ORG     $041F
 
-*        * JSR     Z1F85                    ;041F: BD e2 05      '...'
+*       JSR     Z1F85                    ;041f bd e2 85       '...'
 
-*        * ORG     $0618 
+*       ORG     $0618 
 
-*        * JSR     Z1F80                    ;0618: BD e2 00       '...'
+*       JSR     Z1F80                    ;0618 bd e2 80         '...'
 
-*        * ORG     $08AD 
+*       ORG     $08AD 
 
-*        * JSR     Z1F8D                    ;08AD: BD e2 0d       '...'
+*       JSR     Z1F8D                    ;08ad bd e2 8D       '...'
 
-        ORG     $E200
+        ORG     $E280
 
 Z1F80   LDAB    M8018                    ;1F80: F6 80 18       '...'
         ASRB                             ;1F83: 57             'W'
@@ -372,46 +372,5 @@ Z1F8D   BSR     Z1F80                    ;1F8D: 8D F1          '..'
         RTS                              ;1F97: 39             '9'        
 
 *
-* ROM COPY128B
-MIKBUG  equ $e0d0
-*
-        ORG $2000  * somewhere in ram0[] before ABasic inits
-SRC     equ *
-DST     equ *+2 
-*
-        ORG $E280
-start   ldx #DATA128
-        stx SRC
-        ldx #0
-        stx DST
-        ldaa #128
-next    ldx SRC
-        ldab 0,X
-        inc SRC+1  * OK only 128 bytes are transferred
-        ldx DST
-        stab 0,X
-        inc DST+1
-        deca
-        bne next
-        jmp #MIKBUG
-        end
-*
-DATA128 fcb  $0d, $76, $00, $f3, $7e, $18, $f9, $7e
-        fcb  $03, $3c, $00, $00, $48, $38, $00, $2c
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
-        fcb  $00, $00, $00, $00, $00, $00, $00, $00
 
-*
         END
