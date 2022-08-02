@@ -55,9 +55,9 @@ int main(int argc, char** argv) {
     // copy altair basic img to ram0[] area]
     cp_basic();
 
-    // set mikbug 'G' vector to 0x0000 altair start address
-    ram[0x3148 - RAM_BEG] = 0x00;
-    ram[0x3149 - RAM_BEG] = 0x00;
+    // set mikbug 'G' vector to 0x0000 abasic start address
+    ram[0x1f48 - RAM_BEG] = 0x00;
+    ram[0x1f49 - RAM_BEG] = 0x00;
     
     MemAccess = 0; 
     // Enable global interrupts
