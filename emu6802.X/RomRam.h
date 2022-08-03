@@ -24,7 +24,7 @@ extern const uint8_t rom0[];
 
 /* ram: main ram */
 #define RAM_BEG 0x0000 
-#define RAM_END 0x2080
+#define RAM_END 0x2000
 #define RAM_SIZ (RAM_END - RAM_BEG) // 0x2000 (8,192 bytes)
 
 extern volatile uint8_t ram[];

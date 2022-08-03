@@ -76,13 +76,31 @@ int main(int argc, char** argv) {
                 // MPU read = PIC Data bus output
                 MPU_DDIR = 0;
                 if(ab.w < RAM_END){ // main ram
-                    LATC = ram[ab.w];
+    asm("movf    PORTB,w");
+    // iorlw   0xC0        //debug
+    asm("movwf   FSR0L");
+    asm("movlw   0x10");
+    asm("addwf   PORTD,w");
+    asm("movwf   FSR0H");
+    // asm("clrf    TRISC");
+    asm("movf    INDF0,w");
+    asm("movwf   LATC");
+                    // LATC = ram[ab.w];
                 }else if(ab.w == UART_DREG){
                     LATC = U3RXB;
                 }else if(ab.w == UART_CREG){
                     LATC = PIR9;
                 }else if(ab.w >= ROM_BEG){ // 16k rom
-                    LATC = rom[ab.w - ROM_BEG];
+    asm("movf    PORTB,w");
+    asm("movwf   TBLPTRL");
+    asm("movf    PORTD,w");
+    asm("movwf   TBLPTRH");
+    asm("clrf    TBLPTRU");
+    asm("tblrd");
+    // asm("clrf    TRISC");
+    asm("movf    TABLAT,w");
+    asm("movwf   LATC");
+                    // LATC = rom[ab.w - ROM_BEG];
                 }
                 MemAccess = 0; 
                 // Clear Mem Stretch
@@ -96,8 +114,18 @@ int main(int argc, char** argv) {
                 _delay(14); // 14 @ _XTAL_FREQ = 64000000, ~219ns
                 d = PORTC;
                 if(ab.w < RAM_END){ // main ram
+    // asm("setf   TRISC");
+    asm("movf    PORTB,w");
+    asm("movwf   FSR0L");
+    asm("movlw   0x10");
+    asm("addwf   PORTD,w");
+    asm("movwf   FSR0H");
+                  // while(MPU_E==0){;} 
+    asm("movf    PORTC,w");
+    asm("movwf   INDF0");
                     ram[ab.w] = d;
                 }else if(ab.w == UART_DREG){
+                    // while(MPU_E==0){;} 
                     U3TXB = d;
                 }
                 MemAccess = 0; 
