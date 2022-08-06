@@ -15,30 +15,24 @@
  * 
  */
 
-AB_t ab;
-volatile int MemAccess;
-
 void memAccess(){
-    ab.l = PORTB;
-    ab.h = PORTD;
+    asm("movff    PORTB,TBLPTRL");
+    asm("movff    PORTD,TBLPTRH");
     asm("bcf    CLCnPOL,1"); // MPU_MRDY = 0; // G2POL = 0; CLCnPOL,1
 
     PIR0bits.CLC1IF = 0;     // Clear the CLC interrupt flag
     if(MPU_RW){
         // MPU read = PIC Data bus output
-        // MPU_DDIR = 0;
-          asm("clrf    TRISC");
-          if(ab.w < RAM_END){ // main ram
+          asm("clrf    TRISC");        // MPU_DDIR = 0;
+          if(TBLPTRH < (RAM_END>>8)){ // main ram
           asm("movf    PORTB,w");
-          // iorlw   0xC0        //debug
           asm("movwf   FSR0L");
           asm("movlw   0x10");
           asm("addwf   PORTD,w");
           asm("movwf   FSR0H");
-          // asm("clrf    TRISC");
           asm("movf    INDF0,w");
           asm("movwf   LATC");
-        }else if(ab.w >= ROM_BEG){ // 16k rom
+        }else if(TBLPTRH >= (ROM_BEG>>8)){ // 16k rom
           asm("movf    PORTB,w");
           asm("movwf   TBLPTRL");
           asm("movf    PORTD,w");
@@ -47,10 +41,12 @@ void memAccess(){
           asm("tblrd");
           asm("movf    TABLAT,w");
           asm("movwf   LATC");
-        }else if(ab.w == UART_DREG){
-          asm("movff U3RXB,LATC");
-        }else if(ab.w == UART_CREG){
+        }else if(TBLPTRH == (UART_DREG>>8)){
+          if(TBLPTRL == (UART_DREG & 0x00ff)){
+            asm("movff U3RXB,LATC");
+          }else{
           asm("movff PIR9,LATC");
+          }
         }
         // Clear Mem Stretch
         asm("bsf    CLCnPOL,1"); // MPU_MRDY = 1; // G2POL = 1; CLCnPOL,1
@@ -58,20 +54,22 @@ void memAccess(){
         asm("setf    TRISC");        // MPU_DDIR = 0xff;
     }else{
         // MPU write = PIC Data bus input
-        if(ab.w < RAM_END){ // main ram
+        if(TBLPTRH < (RAM_END>>8)){ // main ram
           asm("movf    PORTB,w");
           asm("movwf   FSR0L");
           asm("movlw   0x10");
           asm("addwf   PORTD,w");
           asm("movwf   FSR0H");
           while(MPU_E==0){;} // wait until the second half of MPU cycle
-          _delay(14); // _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
+          _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
           asm("movf    PORTC,w");
           asm("movwf   INDF0");
-        }else if(ab.w == UART_DREG){
+        }else if(TBLPTRH == (UART_DREG>>8)){
+          if(TBLPTRL == (UART_DREG & 0x00ff)){
             while(MPU_E==0){;} 
-            _delay(14);
-          asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
+            _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
+            asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
+          }
         }
         // Clear Mem Stretch
         asm("bsf    CLCnPOL,1"); // MPU_MRDY = 1; // G2POL = 1; CLCnPOL,1

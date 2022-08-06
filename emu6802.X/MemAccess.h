@@ -20,9 +20,6 @@ typedef union  {
     };
 }AB_t;
 
-extern AB_t ab;
-extern volatile int MemAccess;
-
 void memAccess(void);
 
 #ifdef	__cplusplus

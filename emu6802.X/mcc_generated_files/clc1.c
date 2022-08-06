@@ -97,15 +97,15 @@ void CLC1_Initialize(void)
 void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
 {
     
-    ab.l = PORTB;
-    ab.h = PORTD;
+    asm("movff    PORTB,TBLPTRL");
+    asm("movff    PORTD,TBLPTRH");
     asm("bcf    CLCnPOL,1"); // MPU_MRDY = 0; // G2POL = 0; CLCnPOL,1
 
     PIR0bits.CLC1IF = 0;     // Clear the CLC interrupt flag
     if(MPU_RW){
         // MPU read = PIC Data bus output
           asm("clrf    TRISC");        // MPU_DDIR = 0;
-          if(ab.h < (RAM_END>>8)){ // main ram
+          if(TBLPTRH < (RAM_END>>8)){ // main ram
           asm("movf    PORTB,w");
           asm("movwf   FSR0L");
           asm("movlw   0x10");
@@ -113,7 +113,7 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
           asm("movwf   FSR0H");
           asm("movf    INDF0,w");
           asm("movwf   LATC");
-        }else if(ab.h >= (ROM_BEG>>8)){ // 16k rom
+        }else if(TBLPTRH >= (ROM_BEG>>8)){ // 16k rom
           asm("movf    PORTB,w");
           asm("movwf   TBLPTRL");
           asm("movf    PORTD,w");
@@ -122,10 +122,12 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
           asm("tblrd");
           asm("movf    TABLAT,w");
           asm("movwf   LATC");
-        }else if(ab.w == UART_DREG){
-          asm("movff U3RXB,LATC");
-        }else if(ab.w == UART_CREG){
+        }else if(TBLPTRH == (UART_DREG>>8)){
+          if(TBLPTRL == (UART_DREG & 0x00ff)){
+            asm("movff U3RXB,LATC");
+          }else{
           asm("movff PIR9,LATC");
+          }
         }
         // Clear Mem Stretch
         asm("bsf    CLCnPOL,1"); // MPU_MRDY = 1; // G2POL = 1; CLCnPOL,1
@@ -133,7 +135,7 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
         asm("setf    TRISC");        // MPU_DDIR = 0xff;
     }else{
         // MPU write = PIC Data bus input
-        if(ab.h < (RAM_END>>8)){ // main ram
+        if(TBLPTRH < (RAM_END>>8)){ // main ram
           asm("movf    PORTB,w");
           asm("movwf   FSR0L");
           asm("movlw   0x10");
@@ -143,10 +145,12 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
           _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
           asm("movf    PORTC,w");
           asm("movwf   INDF0");
-        }else if(ab.w == UART_DREG){
+        }else if(TBLPTRH == (UART_DREG>>8)){
+          if(TBLPTRL == (UART_DREG & 0x00ff)){
             while(MPU_E==0){;} 
-          _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
-          asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
+            _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
+            asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
+          }
         }
         // Clear Mem Stretch
         asm("bsf    CLCnPOL,1"); // MPU_MRDY = 1; // G2POL = 1; CLCnPOL,1
