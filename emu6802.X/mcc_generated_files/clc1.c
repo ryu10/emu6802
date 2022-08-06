@@ -104,19 +104,16 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
     PIR0bits.CLC1IF = 0;     // Clear the CLC interrupt flag
     if(MPU_RW){
         // MPU read = PIC Data bus output
-        // MPU_DDIR = 0;
-          asm("clrf    TRISC");
-          if(ab.w < RAM_END){ // main ram
+          asm("clrf    TRISC");        // MPU_DDIR = 0;
+          if(ab.h < (RAM_END>>8)){ // main ram
           asm("movf    PORTB,w");
-          // iorlw   0xC0        //debug
           asm("movwf   FSR0L");
           asm("movlw   0x10");
           asm("addwf   PORTD,w");
           asm("movwf   FSR0H");
-          // asm("clrf    TRISC");
           asm("movf    INDF0,w");
           asm("movwf   LATC");
-        }else if(ab.w >= ROM_BEG){ // 16k rom
+        }else if(ab.h >= (ROM_BEG>>8)){ // 16k rom
           asm("movf    PORTB,w");
           asm("movwf   TBLPTRL");
           asm("movf    PORTD,w");
@@ -136,19 +133,19 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
         asm("setf    TRISC");        // MPU_DDIR = 0xff;
     }else{
         // MPU write = PIC Data bus input
-        if(ab.w < RAM_END){ // main ram
+        if(ab.h < (RAM_END>>8)){ // main ram
           asm("movf    PORTB,w");
           asm("movwf   FSR0L");
           asm("movlw   0x10");
           asm("addwf   PORTD,w");
           asm("movwf   FSR0H");
           while(MPU_E==0){;} // wait until the second half of MPU cycle
-          _delay(14); // _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
+          _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
           asm("movf    PORTC,w");
           asm("movwf   INDF0");
         }else if(ab.w == UART_DREG){
             while(MPU_E==0){;} 
-            _delay(14);
+          _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
           asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
         }
         // Clear Mem Stretch

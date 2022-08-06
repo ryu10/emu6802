@@ -71,9 +71,9 @@ void NCO1_Initialize (void)
     // 
     NCO1INCU = 0x01;
     // 
-    NCO1INCH = 0x00;
+    NCO1INCH = 0x26;
     // 
-    NCO1INCL = 0x00;
+    NCO1INCL = 0x66;
 
     // Enable the NCO module
     NCO1CONbits.EN = 1;

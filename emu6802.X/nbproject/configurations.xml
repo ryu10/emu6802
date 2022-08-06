@@ -17,7 +17,6 @@
         <itemPath>mcc_generated_files/uart3.h</itemPath>
       </logicalFolder>
       <itemPath>PortAssign.h</itemPath>
-      <itemPath>ReadAddress.h</itemPath>
       <itemPath>RomRam.h</itemPath>
       <itemPath>MemAccess.h</itemPath>
     </logicalFolder>
@@ -41,7 +40,6 @@
         <itemPath>mcc_generated_files/uart3.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
-      <itemPath>ReadAddress.c</itemPath>
       <itemPath>RomRam.c</itemPath>
       <itemPath>MemAccess.c</itemPath>
     </logicalFolder>
