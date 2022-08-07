@@ -141,14 +141,20 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
           asm("movlw   0x10");
           asm("addwf   PORTD,w");
           asm("movwf   FSR0H");
-          while(MPU_E==0){;} // wait until the second half of MPU cycle
-          _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
+          // while(MPU_E==0){;} // wait until the second half of MPU cycle
+          asm("_l_mpuecheck:");
+          asm("btfss    PORTA,0"); // MPU_E = RA0
+          asm("bra    _l_mpuecheck");
+          // _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
           asm("movf    PORTC,w");
           asm("movwf   INDF0");
         }else if(TBLPTRH == (UART_DREG>>8)){
           if(TBLPTRL == (UART_DREG & 0x00ff)){
-            while(MPU_E==0){;} 
-            _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
+            // while(MPU_E==0){;} 
+            asm("_l_mpuecheck1:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck1");
+            // _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
             asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
           }
         }

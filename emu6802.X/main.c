@@ -56,7 +56,6 @@ int main(int argc, char** argv) {
     ram[0x1f48 - RAM_BEG] = 0x00;
     ram[0x1f49 - RAM_BEG] = 0x00;
     
-    MemAccess = 0; 
     // Enable global interrupts
     INTERRUPT_GlobalInterruptHighEnable();
 
