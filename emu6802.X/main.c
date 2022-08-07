@@ -53,8 +53,8 @@ int main(int argc, char** argv) {
     cp_basic();
 
     // set mikbug 'G' vector to 0x0000 abasic start address
-    ram[0x1f48 - RAM_BEG] = 0x00;
-    ram[0x1f49 - RAM_BEG] = 0x00;
+    ram[0x2f48 - RAM_BEG] = 0x00;
+    ram[0x2f49 - RAM_BEG] = 0x00;
     
     // Enable global interrupts
     INTERRUPT_GlobalInterruptHighEnable();

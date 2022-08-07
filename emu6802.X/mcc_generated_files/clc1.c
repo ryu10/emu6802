@@ -96,7 +96,7 @@ void CLC1_Initialize(void)
 
 void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
 {
-    
+//    asm("bsf      LATA,4");  // test isr startup time
     asm("movff    PORTB,TBLPTRL");
     asm("movff    PORTD,TBLPTRH");
     asm("bcf    CLCnPOL,1"); // MPU_MRDY = 0; // G2POL = 0; CLCnPOL,1
@@ -161,7 +161,7 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
         // Clear Mem Stretch
         asm("bsf    CLCnPOL,1"); // MPU_MRDY = 1; // G2POL = 1; CLCnPOL,1
     }
-    
+//    asm("bcf      LATA,4"); // test isr startup time
 }
 
 bool CLC1_OutputStatusGet(void)
