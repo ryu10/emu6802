@@ -20,7 +20,7 @@ PIC16F47Q84 を搭載した EMUZ80 を使います。EMUZ80 基板の CPU ソケ
 
 ## 配線
 
-具体的な配線は下の回路図のとおりです（[PDF 版](/emu6802.kicad5/emu6802/emu6802_sch.pdf)）。図の右半分は PIC 内部の CLC と NCO の構成を説明するためのもので、実際に配線する必要はありません。
+配線は下の回路図のとおりです（[PDF 版](/emu6802.kicad5/emu6802/emu6802_sch.pdf)）。図の右半分は PIC 内部の CLC と NCO の構成を説明するためのもので、実際に配線する必要はありません。
 
 ![schematic](/img/emu6802_sch.png)
 
