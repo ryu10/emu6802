@@ -51,9 +51,11 @@ void SYSTEM_Initialize(void)
 {
     INTERRUPT_Initialize();
     PMD_Initialize();
+    TU16A_Initialize();
     PIN_MANAGER_Initialize();
     OSCILLATOR_Initialize();
     CLC1_Initialize();
+    CLC6_Initialize();
     NCO1_Initialize();
     CLC2_Initialize();
     UART3_Initialize();
