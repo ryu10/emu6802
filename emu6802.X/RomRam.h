@@ -54,6 +54,17 @@ extern const uint8_t rom[];
 #define TIMER_PRL  0x0e // 0x0399: TU16APRL
 #define TIMER_CLK  0x0f // 0x038F: TU16ACLK
 #define TIMER_RES  0x1f // reset interrupt FF
+
+/* TU16A 'RTC' */
+#define TCLK_BASE 0xb000 // rtc regs
+#define TCLK_TICK 0x00
+#define TCLK_SEC 0x01
+#define TCLK_MIN 0x02
+#define TCLK_HOUR 0x03
+#define TCLK_SET 0x10
+
+
+
 /* copy basic binary to ram */
 extern void cp_basic(void);
 

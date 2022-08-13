@@ -54,6 +54,7 @@
 #include "../MemAccess.h"
 #include "../PortAssign.h"
 #include "../RomRam.h"
+#include "../ClockTimer.h"
 
 /**
   Section: CLC1 APIs
@@ -100,6 +101,17 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
     asm("movff    PORTB,TBLPTRL");
     asm("movff    PORTD,TBLPTRH");
     asm("bcf    CLCnPOL,1"); // MPU_MRDY = 0; // G2POL = 0; CLCnPOL,1
+
+// reset clock timer interrupt out
+    if(reset_tmrout){
+        asm("movlw   0x05");  // select CLC6
+        asm("movwf  CLCSELECT");
+        asm("bsf    CLCnPOL,3"); // set G4POL = pull CLCOUT HIGH
+        asm("bcf    CLCnPOL,3"); // reset G4POL for future pullup
+        asm("movlw   0x01"); // select CLC2
+        asm("movwf  CLCSELECT");
+        reset_tmrout = 0;
+    }
 
     PIR0bits.CLC1IF = 0;     // Clear the CLC interrupt flag
     if(MPU_RW){
@@ -154,6 +166,16 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
             asm("movff TU16APRH,LATC");
           }else if(TBLPTRL == TIMER_CLK){
             asm("movff TU16ACLK,LATC");
+          }
+        }else if(TBLPTRH == (TCLK_BASE>>8)){
+          if(TBLPTRL == TCLK_TICK){
+            LATC = curr_time[0];
+          }else if(TBLPTRL == TCLK_SEC){
+            LATC = curr_time[1];
+          }else if(TBLPTRL == TCLK_MIN){
+            LATC = curr_time[2];
+          }else if(TBLPTRL == TCLK_HOUR){
+            LATC = curr_time[3];
           }
         }
         // Clear Mem Stretch
@@ -225,6 +247,36 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
             asm("btfss    PORTA,0"); // MPU_E = RA0
             asm("bra    _l_mpuecheck27");
             asm("movff PORTC,TU16ACLK");
+          }
+        }else if(TBLPTRH == (TCLK_BASE>>8)){
+          if(TBLPTRL == TCLK_TICK){
+            asm("_l_mpuecheck30:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck30");
+            set_time[0] = PORTC;
+          }else if(TBLPTRL == TCLK_SEC){
+            asm("_l_mpuecheck31:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck31");
+            set_time[1] = PORTC;
+          }else if(TBLPTRL == TCLK_MIN){
+            asm("_l_mpuecheck32:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck32");
+            set_time[2] = PORTC;
+          }else if(TBLPTRL == TCLK_HOUR){
+            asm("_l_mpuecheck33:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck33");
+            set_time[3] = PORTC;
+          }else if(TBLPTRL == TCLK_SET){
+            asm("_l_mpuecheck34:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck34");
+            curr_time[3] = set_time[3]; 
+            curr_time[2] = set_time[2]; 
+            curr_time[1] = set_time[1]; 
+            curr_time[0] = set_time[0]; 
           }
         }
         // Clear Mem Stretch

@@ -21,6 +21,7 @@
       <itemPath>PortAssign.h</itemPath>
       <itemPath>RomRam.h</itemPath>
       <itemPath>MemAccess.h</itemPath>
+      <itemPath>ClockTimer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -46,6 +47,7 @@
       <itemPath>main.c</itemPath>
       <itemPath>RomRam.c</itemPath>
       <itemPath>MemAccess.c</itemPath>
+      <itemPath>ClockTimer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -11,6 +11,7 @@
 #include "PortAssign.h"
 #include "MemAccess.h"
 #include "RomRam.h"
+#include "ClockTimer.h"
 
 /*
  * main
@@ -60,6 +61,9 @@ int main(int argc, char** argv) {
     MPU_MRDY = 1;
     // leave CLC2 selected for future access
 
+    // init Clock Timer
+    clockInit();
+
     // copy altair basic img to ram0[] area]
     cp_basic();
 
@@ -77,9 +81,27 @@ int main(int argc, char** argv) {
     __delay_us(5);
     MPU_RES = 1;
 
-
     while(1) {
-        ;
+      if(!CLCDATAbits.CLC6OUT){
+        reset_tmrout = 1; // let isr reset CLC6OUT;
+        __delay_us(20);  // let isr work
+        curr_time[0]++; //tick
+        if(curr_time[0]==10){
+          curr_time[0]=0;
+          curr_time[1]++; //sec
+          if(curr_time[1]==60){
+            curr_time[1]=0;
+            curr_time[2]++; //min
+            if(curr_time[2]==60){
+              curr_time[2]=0;
+              curr_time[3]++; //hr
+              if(curr_time[3]==24){
+                curr_time[3]=0;
+              }
+            }
+          }
+        }
+      }
     }
 
     return (EXIT_SUCCESS);
