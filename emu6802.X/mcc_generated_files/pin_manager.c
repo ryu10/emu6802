@@ -125,6 +125,7 @@ void PIN_MANAGER_Initialize(void)
     
 	
     TUIN0PPS = 0x00;   //RA0->TU16A:TUIN0;    
+    RA4PPS = 0x06;   //RA4->CLC6:CLC6;    
     CLCIN0PPS = 0x00;   //RA0->CLC6:CLCIN0;    
     RA3PPS = 0x3F;   //RA3->NCO1:NCO1;    
     RA6PPS = 0x26;   //RA6->UART3:TX3;    

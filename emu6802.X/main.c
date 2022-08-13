@@ -36,7 +36,17 @@ int main(int argc, char** argv) {
     
     // set databus MPU write default
     MPU_DDIR = 0xff;
+
+    // // set RA4 ODCON - Open Drain
+    // ODCONAbits.ODCA4 = 1;
     
+    // set IRQ FF
+    CLCSELECT = 5; // select CLC6 = IRQ FF
+    __delay_us(1);
+    IRQ_FF_RES = 1;
+    __delay_us(1);
+    IRQ_FF_RES = 0;
+
     // reset MRdy FF
     CLCSELECT = 1; // select CLC2=MRdy FF
     MRDY_FF_RES = 0;
@@ -48,7 +58,8 @@ int main(int argc, char** argv) {
     // Assert MPU MemRdy (normal operation)
     __delay_us(1);
     MPU_MRDY = 1;
-    
+    // leave CLC2 selected for future access
+
     // copy altair basic img to ram0[] area]
     cp_basic();
 

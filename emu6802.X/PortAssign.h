@@ -29,7 +29,9 @@ extern "C" {
 #define MPU_MRDY G2POL // CLC2:GATE2 (1:H, 0:L)
 #define MRDY_FF_RES G3POL // CLC2:GATE3 (1:H, 0:L)
 
-    
+    // IRQ FF, use 'CLCSELECT = 5;' (select CLC6) before accessing IRQ_FF_RES
+#define IRQ_FF_RES G4POL // CLC6:GATE4 (1:H, 0:L)
+
 #ifdef	__cplusplus
 }
 #endif

@@ -41,6 +41,20 @@ extern const uint8_t rom[];
 #define UART_DREG 0x8019 // UART Data
 #define UART_CREG 0x8018 // UART Ctrl
 
+/* PIC TIMER TU16A */
+
+#define TIMER_BASE 0xa000 // Timer registers
+#define TIMER_CON0 0x07 // 0x0387: TU16ACON0
+#define TIMER_CON1 0x08 // 0x0388: TU16ACON1
+#define TIMER_HLT  0x09 // 0x0389: TU16AHLT
+#define TIMER_PS   0x0a // 0x038A: TU16APS
+#define TIMER_TMRH 0x0b // 0x038B: TU16ATMRH / TU16ACRH
+#define TIMER_TMRL 0x0c // 0x03: TU16ATMRL / TU16ACRL
+#define TIMER_PRH  0x0d // 0x038D: TU16APRH
+#define TIMER_PRL  0x0e // 0x0399: TU16APRL
+#define TIMER_CLK  0x0f // 0x038F: TU16ACLK
+#define TIMER_RES  0x1f // reset interrupt FF
+/* copy basic binary to ram */
 extern void cp_basic(void);
 
 #ifdef	__cplusplus

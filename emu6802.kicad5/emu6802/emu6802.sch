@@ -127,7 +127,7 @@ MPU_R~W~
 Wire Wire Line
 	1900 3550 1550 3550
 Text Label 1550 3550 0    50   ~ 0
-MPU_Res
+MPU_IRQ
 Wire Wire Line
 	3650 3650 3900 3650
 Wire Wire Line
@@ -304,24 +304,18 @@ $EndComp
 $Comp
 L power:+5V #PWR013
 U 1 1 62D778D7
-P 4450 4350
-F 0 "#PWR013" H 4450 4200 50  0001 C CNN
-F 1 "+5V" H 4465 4523 50  0000 C CNN
-F 2 "" H 4450 4350 50  0001 C CNN
-F 3 "" H 4450 4350 50  0001 C CNN
-	1    4450 4350
+P 4450 4250
+F 0 "#PWR013" H 4450 4100 50  0001 C CNN
+F 1 "+5V" H 4550 4350 50  0000 C CNN
+F 2 "" H 4450 4250 50  0001 C CNN
+F 3 "" H 4450 4250 50  0001 C CNN
+	1    4450 4250
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
 	4750 4150 4750 4250
 Connection ~ 4750 4250
-Wire Wire Line
-	4750 4250 4750 4350
-Wire Wire Line
-	4450 4350 4750 4350
-Connection ~ 4750 4350
 NoConn ~ 5750 4650
-NoConn ~ 3650 4750
 NoConn ~ 3650 4850
 NoConn ~ 3650 4950
 Wire Wire Line
@@ -717,108 +711,108 @@ Wire Wire Line
 $Comp
 L 4xxx:4013 UX4
 U 1 1 62EFFDB6
-P 9700 3950
-F 0 "UX4" H 9850 4300 50  0000 C CNN
-F 1 "CLC2" H 9700 3950 50  0000 C CNN
-F 2 "" H 9700 3950 50  0001 C CNN
-F 3 "http://www.onsemi.com/pub/Collateral/MC14013B-D.PDF" H 9700 3950 50  0001 C CNN
-	1    9700 3950
+P 9700 2550
+F 0 "UX4" H 9850 2900 50  0000 C CNN
+F 1 "CLC2" H 9700 2550 50  0000 C CNN
+F 2 "" H 9700 2550 50  0001 C CNN
+F 3 "http://www.onsemi.com/pub/Collateral/MC14013B-D.PDF" H 9700 2550 50  0001 C CNN
+	1    9700 2550
 	1    0    0    -1  
 $EndComp
 $Comp
 L 4xxx:4081 UX3
 U 1 1 62F00D8C
-P 9550 2800
-F 0 "UX3" H 9550 3125 50  0000 C CNN
-F 1 "CLC1" H 9550 3034 50  0000 C CNN
-F 2 "" H 9550 2800 50  0001 C CNN
-F 3 "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4073bms-81bms-82bms.pdf" H 9550 2800 50  0001 C CNN
-	1    9550 2800
+P 9550 1400
+F 0 "UX3" H 9550 1725 50  0000 C CNN
+F 1 "CLC1" H 9550 1634 50  0000 C CNN
+F 2 "" H 9550 1400 50  0001 C CNN
+F 3 "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4073bms-81bms-82bms.pdf" H 9550 1400 50  0001 C CNN
+	1    9550 1400
 	1    0    0    -1  
 $EndComp
 $Comp
 L 74xx:74LS04 UX1
 U 1 1 62F0464B
-P 8850 2700
-F 0 "UX1" H 8850 3017 50  0000 C CNN
-F 1 "CLC1" H 8850 2926 50  0000 C CNN
-F 2 "" H 8850 2700 50  0001 C CNN
-F 3 "http://www.ti.com/lit/gpn/sn74LS04" H 8850 2700 50  0001 C CNN
-	1    8850 2700
+P 8850 1300
+F 0 "UX1" H 8850 1617 50  0000 C CNN
+F 1 "CLC1" H 8850 1526 50  0000 C CNN
+F 2 "" H 8850 1300 50  0001 C CNN
+F 3 "http://www.ti.com/lit/gpn/sn74LS04" H 8850 1300 50  0001 C CNN
+	1    8850 1300
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9250 2700 9150 2700
+	9250 1300 9150 1300
 Wire Wire Line
-	10000 3850 10150 3850
-Text GLabel 10150 3850 2    50   Input ~ 0
+	10000 2450 10150 2450
+Text GLabel 10150 2450 2    50   Input ~ 0
 RA2
 $Comp
 L 74xx:74LS04 UX2
 U 1 1 62F26A3E
-P 9000 4100
-F 0 "UX2" H 8950 3950 50  0000 C CNN
-F 1 "CLC1" H 8950 4100 50  0000 C CNN
-F 2 "" H 9000 4100 50  0001 C CNN
-F 3 "http://www.ti.com/lit/gpn/sn74LS04" H 9000 4100 50  0001 C CNN
-	1    9000 4100
+P 9000 2700
+F 0 "UX2" H 8950 2550 50  0000 C CNN
+F 1 "CLC2" H 8950 2700 50  0000 C CNN
+F 2 "" H 9000 2700 50  0001 C CNN
+F 3 "http://www.ti.com/lit/gpn/sn74LS04" H 9000 2700 50  0001 C CNN
+	1    9000 2700
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	9400 3950 9300 3950
+	9400 2550 9300 2550
 Wire Wire Line
-	9300 3950 9300 4100
-Text GLabel 8650 4100 0    50   Input ~ 0
+	9300 2550 9300 2700
+Text GLabel 8650 2700 0    50   Input ~ 0
 NCO1_OUT
-Text GLabel 8400 2700 0    50   Input ~ 0
+Text GLabel 8400 1300 0    50   Input ~ 0
 RA0
-Text GLabel 8400 2900 0    50   Input ~ 0
+Text GLabel 8400 1500 0    50   Input ~ 0
 RA1
 Wire Wire Line
-	8550 2700 8400 2700
+	8550 1300 8400 1300
 Wire Wire Line
-	8400 2900 9250 2900
-Text GLabel 9950 2800 2    50   Input ~ 0
+	8400 1500 9250 1500
+Text GLabel 9950 1400 2    50   Input ~ 0
 CLC1_INTP
 Wire Wire Line
-	9850 2800 9950 2800
-Text GLabel 8750 3850 0    50   Input ~ 0
+	9850 1400 9950 1400
+Text GLabel 8750 2450 0    50   Input ~ 0
 CLC2_G2POL
 Wire Wire Line
-	8750 3850 9400 3850
-Text GLabel 8750 4400 0    50   Input ~ 0
+	8750 2450 9400 2450
+Text GLabel 8750 3000 0    50   Input ~ 0
 CLC2_G3POL
 Wire Wire Line
-	9700 4400 8750 4400
+	9700 3000 8750 3000
 $Comp
 L power:GND #PWR018
 U 1 1 62F727F3
-P 9500 3500
-F 0 "#PWR018" H 9500 3250 50  0001 C CNN
-F 1 "GND" H 9505 3327 50  0000 C CNN
-F 2 "" H 9500 3500 50  0001 C CNN
-F 3 "" H 9500 3500 50  0001 C CNN
-	1    9500 3500
+P 9500 2100
+F 0 "#PWR018" H 9500 1850 50  0001 C CNN
+F 1 "GND" H 9505 1927 50  0000 C CNN
+F 2 "" H 9500 2100 50  0001 C CNN
+F 3 "" H 9500 2100 50  0001 C CNN
+	1    9500 2100
 	1    0    0    -1  
 $EndComp
-NoConn ~ 10000 4050
-Text Notes 7800 3900 0    50   ~ 0
+NoConn ~ 10000 2650
+Text Notes 7800 2500 0    50   ~ 0
 MPU_MRDY
-Text Notes 7750 4150 0    50   ~ 0
+Text Notes 7750 2750 0    50   ~ 0
 MPU_EXTAL
-Text Notes 7700 4450 0    50   ~ 0
+Text Notes 7700 3050 0    50   ~ 0
 MRDY_FF_RES
-Text Notes 7500 2200 0    94   ~ 0
+Text Notes 7500 800  0    94   ~ 0
 CLC1
-Text Notes 7500 3500 0    94   ~ 0
+Text Notes 7500 2100 0    94   ~ 0
 CLC2
 Text Notes 7500 5150 0    94   ~ 0
 NCO1
-Text Notes 10400 3900 0    50   ~ 0
+Text Notes 10400 2500 0    50   ~ 0
 MPU_MR
-Text Notes 7900 2750 0    50   ~ 0
+Text Notes 7900 1350 0    50   ~ 0
 MPU_E
-Text Notes 7800 2950 0    50   ~ 0
+Text Notes 7800 1550 0    50   ~ 0
 MPU_VMA
 $Comp
 L Oscillator:ACO-xxxMHz XA1
@@ -838,17 +832,17 @@ RA3\NCO1_OUT
 Wire Wire Line
 	9000 5550 8850 5550
 Wire Wire Line
-	8700 4100 8650 4100
+	8700 2700 8650 2700
 Text Notes 9650 5550 0    50   ~ 0
 MPU_EXTAL
 Text Notes 7550 7500 0    50   ~ 0
-EMU6802, derived from EMUZ80
+EMU6802, derived from EMUZ80  rev.0.5
 Wire Wire Line
-	9700 4400 9700 4250
+	9700 3000 9700 2850
 Wire Wire Line
-	9700 3500 9500 3500
+	9700 2100 9500 2100
 Wire Wire Line
-	9700 3500 9700 3650
+	9700 2100 9700 2250
 $Comp
 L power:GND #PWR?
 U 1 1 62F01749
@@ -864,4 +858,89 @@ Wire Wire Line
 	4450 4450 4750 4450
 Wire Wire Line
 	4750 4450 4750 4550
+$Comp
+L 4xxx:4013 UX?
+U 1 1 62FA01D8
+P 9700 4000
+F 0 "UX?" H 9850 4350 50  0000 C CNN
+F 1 "CLC2" H 9700 4000 50  0000 C CNN
+F 2 "" H 9700 4000 50  0001 C CNN
+F 3 "http://www.onsemi.com/pub/Collateral/MC14013B-D.PDF" H 9700 4000 50  0001 C CNN
+	1    9700 4000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	10000 3900 10150 3900
+Text GLabel 10150 3900 2    50   Input ~ 0
+RA4
+$Comp
+L 74xx:74LS04 UX?
+U 1 1 62FA01E0
+P 9000 4150
+F 0 "UX?" H 8950 4000 50  0000 C CNN
+F 1 "CLC1" H 8950 4150 50  0000 C CNN
+F 2 "" H 9000 4150 50  0001 C CNN
+F 3 "http://www.ti.com/lit/gpn/sn74LS04" H 9000 4150 50  0001 C CNN
+	1    9000 4150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	9400 4000 9300 4000
+Wire Wire Line
+	9300 4000 9300 4150
+Text GLabel 8650 4150 0    50   Input ~ 0
+TU16A
+Text GLabel 8800 3650 0    50   Input ~ 0
+CLC6_G4POL
+$Comp
+L power:GND #PWR?
+U 1 1 62FA01ED
+P 9150 3750
+F 0 "#PWR?" H 9150 3500 50  0001 C CNN
+F 1 "GND" H 9155 3577 50  0000 C CNN
+F 2 "" H 9150 3750 50  0001 C CNN
+F 3 "" H 9150 3750 50  0001 C CNN
+	1    9150 3750
+	1    0    0    -1  
+$EndComp
+NoConn ~ 10000 4100
+Text Notes 7850 3700 0    50   ~ 0
+IRQ_FF_RES
+Text Notes 7500 3550 0    94   ~ 0
+CLC6
+Text Notes 10400 3950 0    50   ~ 0
+MPU_IRQ
+Wire Wire Line
+	8700 4150 8650 4150
+Wire Wire Line
+	9700 4450 9700 4300
+Wire Wire Line
+	8800 3650 9700 3650
+Wire Wire Line
+	9700 3650 9700 3700
+Wire Wire Line
+	9150 3750 9400 3750
+Wire Wire Line
+	9400 3750 9400 3900
+$Comp
+L power:GND #PWR?
+U 1 1 62FBA020
+P 9700 4450
+F 0 "#PWR?" H 9700 4200 50  0001 C CNN
+F 1 "GND" H 9705 4277 50  0000 C CNN
+F 2 "" H 9700 4450 50  0001 C CNN
+F 3 "" H 9700 4450 50  0001 C CNN
+	1    9700 4450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 4250 4450 4250
+Wire Wire Line
+	4400 4350 4750 4350
+Text Label 4400 4350 0    50   ~ 0
+MPU_IRQ
+Wire Wire Line
+	3650 4750 4000 4750
+Text Label 4000 4750 2    50   ~ 0
+MPU_Res
 $EndSCHEMATC

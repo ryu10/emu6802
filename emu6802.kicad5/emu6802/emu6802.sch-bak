@@ -849,8 +849,6 @@ Wire Wire Line
 	9700 3500 9500 3500
 Wire Wire Line
 	9700 3500 9700 3650
-Text Notes 4000 4650 0    50   ~ 0
-* ENABLE INT SRAM
 $Comp
 L power:GND #PWR?
 U 1 1 62F01749

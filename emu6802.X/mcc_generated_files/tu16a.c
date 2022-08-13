@@ -58,18 +58,18 @@ void TU16A_Initialize(void)
     TU16ACON0bits.ON = 0;
     //OSEN disabled; CLR disabled; LIMIT disabled; CAPT disabled; PRIF disabled; ZIF disabled; CIF disabled; 
     TU16ACON1 = 0x00;
-    //EPOL non inverted; CSYNC disabled; START No hardware Start; RESET No hardware reset; STOP No hardware Stop; 
-    TU16AHLT = 0x00;
-    //CLK TUIN0PPS; 
-    TU16ACLK = 0x00;
+    //EPOL non inverted; CSYNC disabled; START No hardware Start; RESET At PR Match; STOP No hardware Stop; 
+    TU16AHLT = 0x0C;
+    //CLK MFINTOSC_31.25kHz; 
+    TU16ACLK = 0x06;
     //ERS TUIN0PPS; 
     TU16AERS = 0x00;
     //PS 0; 
     TU16APS = 0x00;
-    //PRH 0; 
-    TU16APRH = 0x00;
-    //PRL 30; 
-    TU16APRL = 0x1E;
+    //PRH 61; 
+    TU16APRH = 0x3D;
+    //PRL 9; 
+    TU16APRL = 0x09;
     //TMRH 0; 
     TU16ATMRH = 0x00;
     //TMRL 0; 
@@ -78,8 +78,8 @@ void TU16A_Initialize(void)
     TUCHAIN = 0x00;
     // Disabled TUI TU16A interrupt
     PIE0bits.TU16AIE = 0;
-    //ON enabled; CPOL falling edge; OM pulse mode; OPOL low; RDSEL read; PRIE disabled; ZIE disabled; CIE disabled; 
-    TU16ACON0 = 0x80;
+    //ON disabled; CPOL falling edge; OM pulse mode; OPOL high; RDSEL read; PRIE disabled; ZIE disabled; CIE disabled; 
+    TU16ACON0 = 0x10;
 }
 
 inline void TU16A_StartTimer(void)

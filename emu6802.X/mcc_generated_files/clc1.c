@@ -128,6 +128,33 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
           }else{
           asm("movff PIR9,LATC");
           }
+        }else if(TBLPTRH == (TIMER_BASE>>8)){
+          if(TBLPTRL == TIMER_RES){ // reset timer output
+            asm("movlw   0x05");  // select CLC6
+            asm("movwf  CLCSELECT");
+            asm("bsf    CLCnPOL,3"); // set G4POL = pull CLCOUT HIGH
+            asm("bcf    CLCnPOL,3"); // reset G4POL for future pullup
+            asm("movlw   0x01"); // select CLC2
+            asm("movwf  CLCSELECT");
+          }else if(TBLPTRL == TIMER_CON0){
+            asm("movff TU16ACON0,LATC");
+          }else if(TBLPTRL == TIMER_CON1){
+            asm("movff TU16ACON1,LATC");
+          // }else if(TBLPTRL == TIMER_HLT){
+          //   asm("movff TU16AHLT,LATC");
+          }else if(TBLPTRL == TIMER_PS){
+            asm("movff TU16APS,LATC");
+          }else if(TBLPTRL == TIMER_TMRL){
+            asm("movff TU16ATMRL,LATC");
+          }else if(TBLPTRL == TIMER_TMRH){
+            asm("movff TU16ATMRH,LATC");
+          }else if(TBLPTRL == TIMER_PRL){
+            asm("movff TU16APRL,LATC");
+          }else if(TBLPTRL == TIMER_PRH){
+            asm("movff TU16APRH,LATC");
+          }else if(TBLPTRL == TIMER_CLK){
+            asm("movff TU16ACLK,LATC");
+          }
         }
         // Clear Mem Stretch
         asm("bsf    CLCnPOL,1"); // MPU_MRDY = 1; // G2POL = 1; CLCnPOL,1
@@ -156,6 +183,48 @@ void __interrupt(irq(CLC1),base(8)) CLC1_ISR()
             asm("bra    _l_mpuecheck1");
             // _delay(4); // 62.5ns * 4 = 250ns; cf. tDDW = 225ns @MC6802
             asm("movff PORTC,U3TXB"); // U3TXB = PORTC;
+          }
+        }else if(TBLPTRH == (TIMER_BASE>>8)){
+          if(TBLPTRL == TIMER_CON0){
+            asm("_l_mpuecheck20:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck20");
+            asm("movff PORTC,TU16ACON0");
+          }else if(TBLPTRL == TIMER_CON1){
+            asm("_l_mpuecheck21:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck21");
+            asm("movff PORTC,TU16ACON1");
+          }else if(TBLPTRL == TIMER_PS){
+            asm("_l_mpuecheck22:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck22");
+            asm("movff PORTC,TU16APS");
+          }else if(TBLPTRL == TIMER_TMRH){
+            asm("_l_mpuecheck23:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck23");
+            asm("movff PORTC,TU16ATMRH");
+          }else if(TBLPTRL == TIMER_TMRL){
+            asm("_l_mpuecheck24:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck24");
+            asm("movff PORTC,TU16ATMRL");
+          }else if(TBLPTRL == TIMER_PRH){
+            asm("_l_mpuecheck25:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck25");
+            asm("movff PORTC,TU16APRH");
+          }else if(TBLPTRL == TIMER_PRL){
+            asm("_l_mpuecheck26:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck26");
+            asm("movff PORTC,TU16APRL");
+          }else if(TBLPTRL == TIMER_CLK){
+            asm("_l_mpuecheck27:");
+            asm("btfss    PORTA,0"); // MPU_E = RA0
+            asm("bra    _l_mpuecheck27");
+            asm("movff PORTC,TU16ACLK");
           }
         }
         // Clear Mem Stretch

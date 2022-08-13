@@ -1,0 +1,54 @@
+0001                               *
+0002                               * EMU6802 Timerdots
+0003                               *
+0004                               * 8/12/2022 RyuStudio
+0005                               *
+0006                               *
+0007 2f00                          iov equ   $2f00
+0008 a007                          timcon0 equ $a007  ; Timer TU16ACON0
+0009 a00a                          timps   equ $a00a ; Timer prescaler
+0010 a00d                          timprh  equ $a00d ; Timer preset H
+0011 a01f                          reset_timerout equ $a01f  ; reset timerout
+0012 e075                          outch  equ $e075
+0013                               * 
+0014                               *  main 
+0015 1000                              org   $1000
+0016 1000 ce 10 16           [ 3 ]     ldx   #isr
+0017 1003 ff 2f 00           [ 6 ]     stx   iov
+0018 1006 b6 a0 07           [ 4 ]     ldaa  timcon0
+0019 1009 8a 80              [ 2 ]     oraa  #$80    ; turn timer on
+0020 100b b7 a0 07           [ 5 ]     staa  timcon0
+0021 100e 86 41              [ 2 ] test  ldaa #'A
+0022 1010 bd e0 75           [ 9 ]     jsr outch
+0023 1013 0e                 [ 2 ]     cli        ; enable IRQ
+0024 1014 20 fe              [ 4 ] loop bra  loop  ; infinite loop
+0025                               *   end of main
+0026                               *
+0027                               * interrupt routine
+0028 1016 86 2a              [ 2 ] isr ldaa #'*
+0029 1018 bd e0 75           [ 9 ]     jsr outch
+0030 101b b6 a0 1f           [ 4 ]     ldaa reset_timerout
+0031 101e 3b                 [10 ]     rti
+0032                               * end interrupt
+0033                               * 
+0034                               * test  ldaa #'A
+0035                               *     jsr outch
+0036                               *     swi
+iov        2f00
+isr        1016
+loop       1014
+outch      e075
+reset_timerout a01f
+test       100e
+timcon0    a007
+timprh     a00d
+timps      a00a
+iov        2f00 *0007 0017 
+isr        1016 *0028 0016 
+loop       1014 *0024 0024 
+outch      e075 *0012 0022 0029 
+reset_timerout a01f *0011 0030 
+test       100e *0021 
+timcon0    a007 *0008 0018 0020 
+timprh     a00d *0010 
+timps      a00a *0009 

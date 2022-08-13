@@ -1,0 +1,184 @@
+*
+* EMU6802 Clock
+*
+* 8/12/2022 RyuStudio
+*
+*
+iov       equ $2f00  ; Mikbug IO venctor
+timcon0   equ $a007  ; Timer TU16ACON0
+timps     equ $a00a  ; Timer prescaler
+timprh    equ $a00d  ; Timer preset H
+tmr_res   equ $a01f  ; reset timerout
+outch     equ $e075  ; Mikbug print char
+out2h     equ $e0bf  ; Mikbug out 2hex
+out2hs    equ $e0ca  ; Mikbug out 2hex+sp
+control   equ $e0e3  ; Mikbug entry without swi (swi masks interrupt)
+pdata1    equ $e07e  ; Mikbug print string (ending with 0x04)
+*
+prh       equ $0c    ; timer pr = 0x0c34 = 3124
+prl       equ $35    ; 31.25kHz / (3124+1) = 10Hz
+prw       equ $0c35  
+c_esc     equ $1b  ; Escape char code $0b
+*
+          org $1000
+* main
+          jsr tmr_init ; init timer
+          jsr tmr_start ; start timer
+* main loop
+          jsr ptime_rep
+          sei
+          swi ; back to mikbug
+*
+* main end
+*
+* init timer
+tmr_init ldx #isr
+          stx iov    ; set interrupt vector
+          ldx #prw
+          stx timprh ; set timer cycle
+          ldx t_set      ; clear 4bytes at t_val
+          stx t_val
+          ldx t_set+2
+          stx t_val+2
+          rts
+*
+* start timer
+tmr_start ldaa timcon0
+          oraa #$80  ; turn timer on
+          staa timcon0
+          cli
+          rts
+*
+* print time
+ptime     ldx #t_val+3  ; print hour
+          jsr out2h
+          ldaa #':
+          jsr outch
+          ldx #t_val+2 ; print min
+          jsr out2h
+          ldaa #':
+          jsr outch
+          ldx #t_val+1 ; print sec
+          jsr out2h
+          rts
+*
+* print time until set time
+ptime_rep jsr clrscr
+          jsr home
+ptmr_0    tst t_val
+          beq ptmr_0
+          jsr ctrcur 
+          jsr ptime
+          jsr home
+          jsr tmr_cmp
+          tsta #0
+          beq ptmr_end
+ptmr_1    tst t_val
+          bne ptmr_1
+          bra ptmr_0
+ptmr_end  rts
+*
+* set time
+tmr_set   ldaa t_set  ; 1/10sec
+          cmpa #$11   ; note t_set and t_val are BCD values
+          bmi tmr_s1
+          rts ; err
+tmr_s1    ldaa t_set+1 ; sec
+          cmpa #$61
+          bmi tmr_s2
+          rts ; sec err
+tmr_s2    ldaa t_set+2 ; min
+          cmpa #$61
+          bmi tmr_s3
+          rts ; min err
+tmr_s3    ldaa t_set+3 ; hour
+          cmpa #$25
+          bmi tmr_s4
+          rts ; hour err
+tmr_s4    ldx t_set
+          stx t_val
+          ldx t_set+2
+          stx t_val+2
+          rts
+*
+* get time
+tmr_get   ldx t_val
+          stx t_set
+          ldx t_val+2
+          stx t_set
+          rts
+*
+* compare time
+tmr_cmp   ldaa #$ff
+          ldab t_val+2
+          cmpb t_cmp+2
+          bne cmp_end
+          ldab t_val+3
+          cmpb t_cmp+3
+          bne cmp_end
+          ldaa #0
+cmp_end   rts
+*
+* clear screen
+clrscr    ldx #clrscr_d
+          jsr pdata1
+          rts
+clrscr_d  fcb c_esc,'[,'2,'J,4
+*
+* home cursor
+home      ldx #home_d
+          jsr pdata1
+          rts
+home_d    fcb c_esc,'[,'1,';,'1,'H,4
+*
+* center cursor
+ctrcur    ldx #ctrcur1_d
+          jsr pdata1
+          ldx #ctrcur_d
+          jsr pdata1
+          rts
+ctrcur1_d  fcb c_esc, '[,'1,'2,'B,4
+ctrcur_d  fcb c_esc, '[,'3,'4,'C,4
+*
+* move cursor center of screen
+*
+* interrupt routine
+isr       ldaa t_val   ; 1/10 sec
+          inca
+          daa
+          staa t_val
+          cmpa #$10
+          beq time_sec
+          bra isr_end
+time_sec  clr t_val
+          ldaa t_val+1   ; sec
+          inca
+          daa
+          staa t_val+1
+          cmpa #$60
+          beq time_min
+          bra isr_end
+time_min  clr t_val+1
+          ldaa t_val+2   ; min
+          inca
+          daa
+          staa t_val+2
+          cmpa #$60
+          beq time_hour
+          bra isr_end
+time_hour clr t_val+2
+          ldaa t_val+3   ; hour
+          inca
+          daa
+          staa t_val+3
+          cmpa #$24
+          bne isr_end
+          clr t_val+3
+isr_end   ldaa tmr_res
+          rti
+*
+* timer var
+          org $2f90
+t_val     rmb 4      ; current time [1/10sec][sec][min][hr]
+t_set     rmb 4      ; start time [1/10sec][sec][min][hr]
+t_cmp     rmb 4      ; end time [1/10sec][sec][min][hr]

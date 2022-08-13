@@ -1,0 +1,276 @@
+0001                               *
+0002                               * EMU6802 Clock
+0003                               *
+0004                               * 8/12/2022 RyuStudio
+0005                               *
+0006                               *
+0007 2f00                          iov       equ $2f00  ; Mikbug IO venctor
+0008 a007                          timcon0   equ $a007  ; Timer TU16ACON0
+0009 a00a                          timps     equ $a00a  ; Timer prescaler
+0010 a00d                          timprh    equ $a00d  ; Timer preset H
+0011 a01f                          tmr_res   equ $a01f  ; reset timerout
+0012 e075                          outch     equ $e075  ; Mikbug print char
+0013 e0bf                          out2h     equ $e0bf  ; Mikbug out 2hex
+0014 e0ca                          out2hs    equ $e0ca  ; Mikbug out 2hex+sp
+0015 e0e3                          control   equ $e0e3  ; Mikbug entry without swi (swi masks interrupt)
+0016 e07e                          pdata1    equ $e07e  ; Mikbug print string (ending with 0x04)
+0017                               *
+0018 000c                          prh       equ $0c    ; timer pr = 0x0c34 = 3124
+0019 0035                          prl       equ $35    ; 31.25kHz / (3124+1) = 10Hz
+0020 0c35                          prw       equ $0c35  
+0021 001b                          c_esc     equ $1b  ; Escape char code $0b
+0022                               *
+0023 1000                                    org $1000
+0024                               * main
+0025 1000 bd 10 0b           [ 9 ]           jsr tmr_init ; init timer
+0026 1003 bd 10 24           [ 9 ]           jsr tmr_start ; start timer
+0027                               * main loop
+0028 1006 bd 10 4b           [ 9 ]           jsr ptime_rep
+0029 1009 0f                 [ 2 ]           sei
+0030 100a 3f                 [12 ]           swi ; back to mikbug
+0031                               *
+0032                               * main end
+0033                               *
+0034                               * init timer
+0035 100b ce 10 ef           [ 3 ] tmr_init ldx #isr
+0036 100e ff 2f 00           [ 6 ]           stx iov    ; set interrupt vector
+0037 1011 ce 0c 35           [ 3 ]           ldx #prw
+0038 1014 ff a0 0d           [ 6 ]           stx timprh ; set timer cycle
+0039 1017 fe 2f 94           [ 5 ]           ldx t_set      ; clear 4bytes at t_val
+0040 101a ff 2f 90           [ 6 ]           stx t_val
+0041 101d fe 2f 96           [ 5 ]           ldx t_set+2
+0042 1020 ff 2f 92           [ 6 ]           stx t_val+2
+0043 1023 39                 [ 5 ]           rts
+0044                               *
+0045                               * start timer
+0046 1024 b6 a0 07           [ 4 ] tmr_start ldaa timcon0
+0047 1027 8a 80              [ 2 ]           oraa #$80  ; turn timer on
+0048 1029 b7 a0 07           [ 5 ]           staa timcon0
+0049 102c 0e                 [ 2 ]           cli
+0050 102d 39                 [ 5 ]           rts
+0051                               *
+0052                               * print time
+0053 102e ce 2f 93           [ 3 ] ptime     ldx #t_val+3  ; print hour
+0054 1031 bd e0 bf           [ 9 ]           jsr out2h
+0055 1034 86 3a              [ 2 ]           ldaa #':
+0056 1036 bd e0 75           [ 9 ]           jsr outch
+0057 1039 ce 2f 92           [ 3 ]           ldx #t_val+2 ; print min
+0058 103c bd e0 bf           [ 9 ]           jsr out2h
+0059 103f 86 3a              [ 2 ]           ldaa #':
+0060 1041 bd e0 75           [ 9 ]           jsr outch
+0061 1044 ce 2f 91           [ 3 ]           ldx #t_val+1 ; print sec
+0062 1047 bd e0 bf           [ 9 ]           jsr out2h
+0063 104a 39                 [ 5 ]           rts
+0064                               *
+0065                               * print time until set time
+0066 104b bd 10 bc           [ 9 ] ptime_rep jsr clrscr
+0067 104e bd 10 c8           [ 9 ]           jsr home
+0068 1051 7d 2f 90           [ 6 ] ptmr_0    tst t_val
+0069 1054 27 fb              [ 4 ]           beq ptmr_0
+0070 1056 bd 10 d6           [ 9 ]           jsr ctrcur 
+0071 1059 bd 10 2e           [ 9 ]           jsr ptime
+0072 105c bd 10 c8           [ 9 ]           jsr home
+0073 105f bd 10 a7           [ 9 ]           jsr tmr_cmp
+0074 1062 4d                 [ 2 ]           tsta #0
+0075 1063 27 07              [ 4 ]           beq ptmr_end
+0076 1065 7d 2f 90           [ 6 ] ptmr_1    tst t_val
+0077 1068 26 fb              [ 4 ]           bne ptmr_1
+0078 106a 20 e5              [ 4 ]           bra ptmr_0
+0079 106c 39                 [ 5 ] ptmr_end  rts
+0080                               *
+0081                               * set time
+0082 106d b6 2f 94           [ 4 ] tmr_set   ldaa t_set  ; 1/10sec
+0083 1070 81 11              [ 2 ]           cmpa #$11   ; note t_set and t_val are BCD values
+0084 1072 2b 01              [ 4 ]           bmi tmr_s1
+0085 1074 39                 [ 5 ]           rts ; err
+0086 1075 b6 2f 95           [ 4 ] tmr_s1    ldaa t_set+1 ; sec
+0087 1078 81 61              [ 2 ]           cmpa #$61
+0088 107a 2b 01              [ 4 ]           bmi tmr_s2
+0089 107c 39                 [ 5 ]           rts ; sec err
+0090 107d b6 2f 96           [ 4 ] tmr_s2    ldaa t_set+2 ; min
+0091 1080 81 61              [ 2 ]           cmpa #$61
+0092 1082 2b 01              [ 4 ]           bmi tmr_s3
+0093 1084 39                 [ 5 ]           rts ; min err
+0094 1085 b6 2f 97           [ 4 ] tmr_s3    ldaa t_set+3 ; hour
+0095 1088 81 25              [ 2 ]           cmpa #$25
+0096 108a 2b 01              [ 4 ]           bmi tmr_s4
+0097 108c 39                 [ 5 ]           rts ; hour err
+0098 108d fe 2f 94           [ 5 ] tmr_s4    ldx t_set
+0099 1090 ff 2f 90           [ 6 ]           stx t_val
+0100 1093 fe 2f 96           [ 5 ]           ldx t_set+2
+0101 1096 ff 2f 92           [ 6 ]           stx t_val+2
+0102 1099 39                 [ 5 ]           rts
+0103                               *
+0104                               * get time
+0105 109a fe 2f 90           [ 5 ] tmr_get   ldx t_val
+0106 109d ff 2f 94           [ 6 ]           stx t_set
+0107 10a0 fe 2f 92           [ 5 ]           ldx t_val+2
+0108 10a3 ff 2f 94           [ 6 ]           stx t_set
+0109 10a6 39                 [ 5 ]           rts
+0110                               *
+0111                               * compare time
+0112 10a7 86 ff              [ 2 ] tmr_cmp   ldaa #$ff
+0113 10a9 f6 2f 92           [ 4 ]           ldab t_val+2
+0114 10ac f1 2f 9a           [ 4 ]           cmpb t_cmp+2
+0115 10af 26 0a              [ 4 ]           bne cmp_end
+0116 10b1 f6 2f 93           [ 4 ]           ldab t_val+3
+0117 10b4 f1 2f 9b           [ 4 ]           cmpb t_cmp+3
+0118 10b7 26 02              [ 4 ]           bne cmp_end
+0119 10b9 86 00              [ 2 ]           ldaa #0
+0120 10bb 39                 [ 5 ] cmp_end   rts
+0121                               *
+0122                               * clear screen
+0123 10bc ce 10 c3           [ 3 ] clrscr    ldx #clrscr_d
+0124 10bf bd e0 7e           [ 9 ]           jsr pdata1
+0125 10c2 39                 [ 5 ]           rts
+0126 10c3 1b 5b 32 4a 04           clrscr_d  fcb c_esc,'[,'2,'J,4
+0127                               *
+0128                               * home cursor
+0129 10c8 ce 10 cf           [ 3 ] home      ldx #home_d
+0130 10cb bd e0 7e           [ 9 ]           jsr pdata1
+0131 10ce 39                 [ 5 ]           rts
+0132 10cf 1b 5b 31 3b 31 48        home_d    fcb c_esc,'[,'1,';,'1,'H,4
+     04
+0133                               *
+0134                               * center cursor
+0135 10d6 ce 10 e3           [ 3 ] ctrcur    ldx #ctrcur1_d
+0136 10d9 bd e0 7e           [ 9 ]           jsr pdata1
+0137 10dc ce 10 e9           [ 3 ]           ldx #ctrcur_d
+0138 10df bd e0 7e           [ 9 ]           jsr pdata1
+0139 10e2 39                 [ 5 ]           rts
+0140 10e3 1b 5b 31 32 42 04        ctrcur1_d  fcb c_esc, '[,'1,'2,'B,4
+0141 10e9 1b 5b 33 34 43 04        ctrcur_d  fcb c_esc, '[,'3,'4,'C,4
+0142                               *
+0143                               * move cursor center of screen
+0144                               *
+0145                               * interrupt routine
+0146 10ef b6 2f 90           [ 4 ] isr       ldaa t_val   ; 1/10 sec
+0147 10f2 4c                 [ 2 ]           inca
+0148 10f3 19                 [ 2 ]           daa
+0149 10f4 b7 2f 90           [ 5 ]           staa t_val
+0150 10f7 81 10              [ 2 ]           cmpa #$10
+0151 10f9 27 02              [ 4 ]           beq time_sec
+0152 10fb 20 34              [ 4 ]           bra isr_end
+0153 10fd 7f 2f 90           [ 6 ] time_sec  clr t_val
+0154 1100 b6 2f 91           [ 4 ]           ldaa t_val+1   ; sec
+0155 1103 4c                 [ 2 ]           inca
+0156 1104 19                 [ 2 ]           daa
+0157 1105 b7 2f 91           [ 5 ]           staa t_val+1
+0158 1108 81 60              [ 2 ]           cmpa #$60
+0159 110a 27 02              [ 4 ]           beq time_min
+0160 110c 20 23              [ 4 ]           bra isr_end
+0161 110e 7f 2f 91           [ 6 ] time_min  clr t_val+1
+0162 1111 b6 2f 92           [ 4 ]           ldaa t_val+2   ; min
+0163 1114 4c                 [ 2 ]           inca
+0164 1115 19                 [ 2 ]           daa
+0165 1116 b7 2f 92           [ 5 ]           staa t_val+2
+0166 1119 81 60              [ 2 ]           cmpa #$60
+0167 111b 27 02              [ 4 ]           beq time_hour
+0168 111d 20 12              [ 4 ]           bra isr_end
+0169 111f 7f 2f 92           [ 6 ] time_hour clr t_val+2
+0170 1122 b6 2f 93           [ 4 ]           ldaa t_val+3   ; hour
+0171 1125 4c                 [ 2 ]           inca
+0172 1126 19                 [ 2 ]           daa
+0173 1127 b7 2f 93           [ 5 ]           staa t_val+3
+0174 112a 81 24              [ 2 ]           cmpa #$24
+0175 112c 26 03              [ 4 ]           bne isr_end
+0176 112e 7f 2f 93           [ 6 ]           clr t_val+3
+0177 1131 b6 a0 1f           [ 4 ] isr_end   ldaa tmr_res
+0178 1134 3b                 [10 ]           rti
+0179                               *
+0180                               * timer var
+0181 2f90                                    org $2f90
+0182 2f90                          t_val     rmb 4      ; current time [1/10sec][sec][min][hr]
+0183 2f94                          t_set     rmb 4      ; start time [1/10sec][sec][min][hr]
+0184 2f98                          t_cmp     rmb 4      ; end time [1/10sec][sec][min][hr] ]
+c_esc      001b
+clrscr     10bc
+clrscr_d   10c3
+cmp_end    10bb
+control    e0e3
+ctrcur     10d6
+ctrcur1_d  10e3
+ctrcur_d   10e9
+home       10c8
+home_d     10cf
+iov        2f00
+isr        10ef
+isr_end    1131
+out2h      e0bf
+out2hs     e0ca
+outch      e075
+pdata1     e07e
+prh        000c
+prl        0035
+prw        0c35
+ptime      102e
+ptime_rep  104b
+ptmr_0     1051
+ptmr_1     1065
+ptmr_end   106c
+t_cmp      2f98
+t_set      2f94
+t_val      2f90
+timcon0    a007
+time_hour  111f
+time_min   110e
+time_sec   10fd
+timprh     a00d
+timps      a00a
+tmr_cmp    10a7
+tmr_get    109a
+tmr_init   100b
+tmr_res    a01f
+tmr_s1     1075
+tmr_s2     107d
+tmr_s3     1085
+tmr_s4     108d
+tmr_set    106d
+tmr_start  1024
+c_esc      001b *0021 0126 0132 0140 0141 
+clrscr     10bc *0123 0066 
+clrscr_d   10c3 *0126 0123 
+cmp_end    10bb *0120 0115 0118 
+control    e0e3 *0015 
+ctrcur     10d6 *0135 0070 
+ctrcur1_d  10e3 *0140 0135 
+ctrcur_d   10e9 *0141 0137 
+home       10c8 *0129 0067 0072 
+home_d     10cf *0132 0129 
+iov        2f00 *0007 0036 
+isr        10ef *0146 0035 
+isr_end    1131 *0177 0152 0160 0168 0175 
+out2h      e0bf *0013 0054 0058 0062 
+out2hs     e0ca *0014 
+outch      e075 *0012 0056 0060 
+pdata1     e07e *0016 0124 0130 0136 0138 
+prh        000c *0018 
+prl        0035 *0019 
+prw        0c35 *0020 0037 
+ptime      102e *0053 0071 
+ptime_rep  104b *0066 0028 
+ptmr_0     1051 *0068 0069 0078 
+ptmr_1     1065 *0076 0077 
+ptmr_end   106c *0079 0075 
+t_cmp      2f98 *0184 0114 0117 
+t_set      2f94 *0183 0039 0041 0082 0086 0090 0094 0098 0100 0106 
+                      0108 
+t_val      2f90 *0182 0040 0042 0053 0057 0061 0068 0076 0099 0101 
+                      0105 0107 0113 0116 0146 0149 0153 0154 0157 0161 0162 
+                      0165 0169 0170 0173 0176 
+timcon0    a007 *0008 0046 0048 
+time_hour  111f *0169 0167 
+time_min   110e *0161 0159 
+time_sec   10fd *0153 0151 
+timprh     a00d *0010 0038 
+timps      a00a *0009 
+tmr_cmp    10a7 *0112 0073 
+tmr_get    109a *0105 
+tmr_init   100b *0035 0025 
+tmr_res    a01f *0011 0177 
+tmr_s1     1075 *0086 0084 
+tmr_s2     107d *0090 0088 
+tmr_s3     1085 *0094 0092 
+tmr_s4     108d *0098 0096 
+tmr_set    106d *0082 
+tmr_start  1024 *0046 0026 

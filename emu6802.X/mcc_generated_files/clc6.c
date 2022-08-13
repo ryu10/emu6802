@@ -61,18 +61,18 @@ void CLC6_Initialize(void)
     
     // SLCT 5; 
     CLCSELECT = 0x05;
-    // G1POL not_inverted; G2POL not_inverted; G3POL not_inverted; G4POL not_inverted; POL not_inverted; 
-    CLCnPOL = 0x00;
-    // D1S CLCIN0 (CLCIN0PPS); 
-    CLCnSEL0 = 0x00;
+    // G1POL inverted; G2POL not_inverted; G3POL not_inverted; G4POL not_inverted; POL not_inverted; 
+    CLCnPOL = 0x01;
+    // D1S TU16A; 
+    CLCnSEL0 = 0x19;
     // D2S CLCIN0 (CLCIN0PPS); 
     CLCnSEL1 = 0x00;
     // D3S CLCIN0 (CLCIN0PPS); 
     CLCnSEL2 = 0x00;
     // D4S CLCIN0 (CLCIN0PPS); 
     CLCnSEL3 = 0x00;
-    // G1D3N disabled; G1D2N disabled; G1D4N disabled; G1D1T disabled; G1D3T disabled; G1D2T disabled; G1D4T disabled; G1D1N disabled; 
-    CLCnGLS0 = 0x00;
+    // G1D3N disabled; G1D2N disabled; G1D4N disabled; G1D1T enabled; G1D3T disabled; G1D2T disabled; G1D4T disabled; G1D1N disabled; 
+    CLCnGLS0 = 0x02;
     // G2D2N disabled; G2D1N disabled; G2D4N disabled; G2D3N disabled; G2D2T disabled; G2D1T disabled; G2D4T disabled; G2D3T disabled; 
     CLCnGLS1 = 0x00;
     // G3D1N disabled; G3D2N disabled; G3D3N disabled; G3D4N disabled; G3D1T disabled; G3D2T disabled; G3D3T disabled; G3D4T disabled; 
@@ -81,8 +81,8 @@ void CLC6_Initialize(void)
     CLCnGLS3 = 0x00;
     // CLC6OUT 0; 
     CLCDATA = 0x00;
-    // EN enabled; INTN disabled; INTP disabled; MODE AND-OR; 
-    CLCnCON = 0x80;
+    // EN enabled; INTN disabled; INTP disabled; MODE 1-input D flip-flop with S and R; 
+    CLCnCON = 0x84;
 
 }
 
