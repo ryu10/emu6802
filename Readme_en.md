@@ -26,8 +26,10 @@
 
 - Modify the EMUZ80 by adding PIC16F47Q84 and Motorola MC6802.
 - Use the converter PCB ([Gerber](/data/emu6802r1-gerber.zip)).
-
-Most components on the converter PCB are optional. Just attach the 40pin socket for MC6802. Add C1 (0.1uF) and C2 (10uF) as needed.
+- Attach two 20x1 pin sockets to EMUZ80 (on the sides of Z80 socket). 
+- Attach a 40p DIP socket and two 20x1 pin headers to the converter PCB. C1/C2 and J3/J4/J5 are optional. 
+- Use 'thin type' pin headers that fit the pin sockets.
+- Connect two boards using the pin sockets and headers.
 
 ## Schematics
 
@@ -35,9 +37,7 @@ Most components on the converter PCB are optional. Just attach the 40pin socket 
 
 ## PIC Code
 
-Program the PIC16F47Q84 with  [emu6802.X.production.hex](/data/emu6802.X.production.hex). Remove the MC6802 (or the entire adapter PCB) when programming the PIC.
-
-The PIC project is stored under [emu6802.X](/emu6802.X/) of this repository. Open it with MPLAB X IDE.
+Program the PIC16F47Q84 with  [emu6802.X.production.hex](/data/emu6802.X.production.hex). Remove the MC6802 (or the entire adapter PCB) when programming the PIC. The PIC source code is available under [emu6802.X](/emu6802.X/). Open the project with MPLAB X IDE.
 
 ## Starting Up
 
@@ -49,15 +49,15 @@ The PIC project is stored under [emu6802.X](/emu6802.X/) of this repository. Ope
 
 ## Theory of Operation
 
-The PIC16F47Q84 emurates the memory and UART for the MC6802. The 6802 external clock input (EXTAL) is configured at 2.3 MHz and a memory wait period is inserted into every memory access cycle.
+The PIC16F47Q84 emurates the memory, clock and UART for the MC6802. The 6802 external clock input (EXTAL) is configured at 2.3 MHz and a memory wait period is inserted into every memory access cycle. The effective clock cycle (E) is about 387kHz.
 
 ![timing2](/img/timing2.png)
 
-(Ch1: EXTAL, Ch1: E, Ch3: MR)
+(Ch1: EXTAL, Ch2: E, Ch3: MR)
 
-## PIC タイマと IRQ 割り込み
+## PIC Timer and 6802 IRQ
 
-PIC Universal TIme TU16A is aviable from the 6802. Access TU16A confugration registers via 6802's mem $A007 - $A00F. Accessing $A01F resets the IRQ interrupt line.
+PIC Universal Timer TU16A is accessible from the 6802. Access TU16A confugration registers via 6802's mem \$A007 - \$A00F. Accessing \$A01F resets the IRQ interrupt line.
 
 | 6802 Address | PIC Registers  |
 |--------------|---------------|
@@ -76,7 +76,8 @@ A clock program using TU16A and IRQ interrupt:  [clock.a](data/irq/clock.a)
 
 ![clockapp](/img/clockapp.png)
 
-Also a built-in clock is available at 6802 mem address $B000 - $B003. For details see the clock program written in BASIC: [clock.bas](data/pictmr/clock.bas)
+Also a built-in clock is available at 6802 mem address \$B000 - \$B003. For details see the clock program written in BASIC: [clock.bas](data/pictmr/clock.bas)
+
 ## To Do's
 
 - Improve the memory emulation on PIC.✅
