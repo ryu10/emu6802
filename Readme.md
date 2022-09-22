@@ -2,7 +2,7 @@
 
 [v0.6]
 
-(JA | [EN](Readme_en.md))
+(日本語 | [EN](Readme_en.md))
 
   電脳伝説様作の [EMUZ80](https://github.com/vintagechips/emuz80) を利用した PIC16F47Q84 + MC6802 コンピュータです。
 
