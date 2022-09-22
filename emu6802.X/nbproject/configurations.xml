@@ -15,10 +15,13 @@
         <itemPath>mcc_generated_files/clc1.h</itemPath>
         <itemPath>mcc_generated_files/clc2.h</itemPath>
         <itemPath>mcc_generated_files/uart3.h</itemPath>
+        <itemPath>mcc_generated_files/tu16a.h</itemPath>
+        <itemPath>mcc_generated_files/clc6.h</itemPath>
       </logicalFolder>
       <itemPath>PortAssign.h</itemPath>
-      <itemPath>ReadAddress.h</itemPath>
       <itemPath>RomRam.h</itemPath>
+      <itemPath>MemAccess.h</itemPath>
+      <itemPath>ClockTimer.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -38,10 +41,13 @@
         <itemPath>mcc_generated_files/clc2.c</itemPath>
         <itemPath>mcc_generated_files/clc1.c</itemPath>
         <itemPath>mcc_generated_files/uart3.c</itemPath>
+        <itemPath>mcc_generated_files/clc6.c</itemPath>
+        <itemPath>mcc_generated_files/tu16a.c</itemPath>
       </logicalFolder>
       <itemPath>main.c</itemPath>
-      <itemPath>ReadAddress.c</itemPath>
       <itemPath>RomRam.c</itemPath>
+      <itemPath>MemAccess.c</itemPath>
+      <itemPath>ClockTimer.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

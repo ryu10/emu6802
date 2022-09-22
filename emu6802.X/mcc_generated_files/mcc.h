@@ -53,6 +53,8 @@
 #include <stdbool.h>
 #include <conio.h>
 #include "interrupt_manager.h"
+#include "tu16a.h"
+#include "clc6.h"
 #include "nco1.h"
 #include "clc2.h"
 #include "clc1.h"

@@ -18,7 +18,9 @@ extern "C" {
 #define MPU_VMA RA1 // RA1 IN   6802 VMA
 // #define MPU_MR     IO_RA2_LAT // RA2 OUT  6802 MR
 // #define MPU_EXTAL  IO_RA3_LAT // RA3 OUT  6802 EXTAL
-#define MPU_RES    IO_RA4_LAT // RA4 OUT  6802 #RES
+// #define MPU_RES    IO_RA4_LAT // RA4 OUT  6802 #RES
+#define MPU_RES    LATE0 // RE0 OUT  6802 #RES
+#define TEST_OUT   LATA4
 #define MPU_RW  RA5 // RA5 IN   6802 r/#w
 
 #define MPU_DDIR TRISC // Data bus (RC) dir 0xff: Input, 0x00: Output
@@ -27,7 +29,9 @@ extern "C" {
 #define MPU_MRDY G2POL // CLC2:GATE2 (1:H, 0:L)
 #define MRDY_FF_RES G3POL // CLC2:GATE3 (1:H, 0:L)
 
-    
+    // IRQ FF, use 'CLCSELECT = 5;' (select CLC6) before accessing IRQ_FF_RES
+#define IRQ_FF_RES G4POL // CLC6:GATE4 (1:H, 0:L)
+
 #ifdef	__cplusplus
 }
 #endif

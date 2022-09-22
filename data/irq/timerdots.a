@@ -1,0 +1,36 @@
+*
+* EMU6802 Timerdots
+*
+* 8/12/2022 RyuStudio
+*
+*
+iov equ   $2f00
+timcon0 equ $a007  ; Timer TU16ACON0
+timps   equ $a00a ; Timer prescaler
+timprh  equ $a00d ; Timer preset H
+reset_timerout equ $a01f  ; reset timerout
+outch  equ $e075
+* 
+*  main 
+    org   $1000
+    ldx   #isr
+    stx   iov
+    ldaa  timcon0
+    oraa  #$80    ; turn timer on
+    staa  timcon0
+test  ldaa #'A
+    jsr outch
+    cli        ; enable IRQ
+loop bra  loop  ; infinite loop
+*   end of main
+*
+* interrupt routine
+isr ldaa #'*
+    jsr outch
+    ldaa reset_timerout
+    rti
+* end interrupt
+* 
+* test  ldaa #'A
+*     jsr outch
+*     swi

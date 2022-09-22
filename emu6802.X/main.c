@@ -9,17 +9,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "PortAssign.h"
-#include "ReadAddress.h"
+#include "MemAccess.h"
 #include "RomRam.h"
+#include "ClockTimer.h"
 
 /*
  * main
  */
 
-//int MemAccess;
-
 int main(int argc, char** argv) {
-    uint8_t d;
 
     // Initialize the device
     SYSTEM_Initialize();
@@ -39,7 +37,17 @@ int main(int argc, char** argv) {
     
     // set databus MPU write default
     MPU_DDIR = 0xff;
+
+    // // set RA4 ODCON - Open Drain
+    // ODCONAbits.ODCA4 = 1;
     
+    // set IRQ FF
+    CLCSELECT = 5; // select CLC6 = IRQ FF
+    __delay_us(1);
+    IRQ_FF_RES = 1;
+    __delay_us(1);
+    IRQ_FF_RES = 0;
+
     // reset MRdy FF
     CLCSELECT = 1; // select CLC2=MRdy FF
     MRDY_FF_RES = 0;
@@ -51,79 +59,49 @@ int main(int argc, char** argv) {
     // Assert MPU MemRdy (normal operation)
     __delay_us(1);
     MPU_MRDY = 1;
-    
+    // leave CLC2 selected for future access
+
+    // init Clock Timer
+    clockInit();
+
     // copy altair basic img to ram0[] area]
     cp_basic();
 
-    // set mikbug 'G' vector to 0x0000 altair start address
-    ram1[0x7f48 - RAM1_BEG] = 0x00;
-    ram1[0x7f49 - RAM1_BEG] = 0x00;
+    // set mikbug 'G' vector to 0x0000 abasic start address
+    ram[0x2f48 - RAM_BEG] = 0x00;
+    ram[0x2f49 - RAM_BEG] = 0x00;
     
-    MemAccess = 0; 
     // Enable global interrupts
     INTERRUPT_GlobalInterruptHighEnable();
-    
-    // Release MPU Reset#
-    __delay_us(5);
-    MPU_RES = 1;
 
     // Print startup mesg.
     printf("MPU init done\r\n");
 
+    // Release MPU Reset#
+    __delay_us(5);
+    MPU_RES = 1;
+
     while(1) {
-        if(MemAccess){
-            MPU_MRDY = 0; // extend mem cycle phase
-         
-            // Switch R/W
-            if(MPU_RW){
-                // MPU read = PIC Data bus output
-                MPU_DDIR = 0;
-                if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
-                    LATC = ram0[ab.w - RAM0_BEG];
-                }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
-                    LATC = ram1[ab.w - RAM1_BEG];
-                }else if((ab.w >= ROM1_BEG) && (ab.w < ROM1_END)){ // basic patch
-                    LATC = rom1[ab.w - ROM1_BEG];
-                }else if(ab.w == UART_DREG){
-                    LATC = U3RXB;
-                }else if(ab.w == UART_CREG){
-                    LATC = PIR9;
-                }else if((ab.w >= ROM2_BEG) && (ab.w < ROM2_END)){ // mikbug
-                    LATC = rom2[ab.w - ROM2_BEG];
-                }else if((ab.w >= ROM4_BEG) && (ab.w < ROM4_END)){ // copy 128b
-                    LATC = rom4[ab.w - ROM4_BEG];
-                }else if(ab.w >= ROM3_BEG){ // vectors
-                    LATC = rom3[ab.w - ROM3_BEG];
-                }
-                MemAccess = 0; 
-                // Clear Mem Stretch
-                MPU_MRDY = 1;
-                // after a write phase, we should wait for at least tDHW = 30ns here but omit it for now
-                MPU_DDIR = 0xff;
-            }else{
-                // MPU write = PIC Data bus input
-                // MPU_DDIR = 0xff;
-                while(MPU_E==0){;} // wait until the second half of MPU cycle
-//                _delay(225*_XTAL_FREQ/1000000000); // 14 @ _XTAL_FREQ = 64000000, ~219ns
-                _delay(14); // 14 @ _XTAL_FREQ = 64000000, ~219ns
-                d = PORTC;
-                if((ab.w >= RAM0_BEG) && (ab.w < RAM0_END)){ // main ram
-                    ram0[ab.w - RAM0_BEG] = d;
-                }else if((ab.w >= RAM1_BEG) && (ab.w < RAM1_END)){ // mikbug work
-                    ram1[ab.w - RAM1_BEG] = d;
-                }else if(ab.w == UART_DREG){
-                    U3TXB = d;
-                }
-                MemAccess = 0; 
-                // Clear Mem Stretch
-                MPU_MRDY = 1;
+      if(!CLCDATAbits.CLC6OUT){
+        reset_tmrout = 1; // let isr reset CLC6OUT;
+        __delay_us(20);  // let isr work
+        curr_time[0]++; //tick
+        if(curr_time[0]==10){
+          curr_time[0]=0;
+          curr_time[1]++; //sec
+          if(curr_time[1]==60){
+            curr_time[1]=0;
+            curr_time[2]++; //min
+            if(curr_time[2]==60){
+              curr_time[2]=0;
+              curr_time[3]++; //hr
+              if(curr_time[3]==24){
+                curr_time[3]=0;
+              }
             }
-            // MemAccess = 0;
-            // // Clear Mem Stretch
-            // MPU_MRDY = 1;
-            // // after a write phase, we should wait for at least tDHW = 30ns here but omit it for now
-            // MPU_DDIR = 0;
+          }
         }
+      }
     }
 
     return (EXIT_SUCCESS);
